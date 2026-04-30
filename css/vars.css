@@ -1,0 +1,14 @@
+:root {
+    --aed-red: #FF0D0D;
+    --off-black: #222222;
+    --off-white: #F2E9E8;
+    --primary-app: #FF0D0D;
+
+    --refuse-red: #FF0000;
+    --accept-green: #00FF00;
+
+    --title-font: 'Rubik', 32px;
+    --h3-font: 'Rubik', 20px;
+    --h2-font: 'Rubik', 24px;
+    --p-font: 'Rubik', 16px;
+}
