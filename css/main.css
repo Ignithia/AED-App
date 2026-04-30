@@ -24,14 +24,44 @@
     padding: 1em 0;
 }
 
-.bottom-navigation img {
-    width: 24px;
-    height: 24px;
-
-    filter: drop-shadow(0 0 10px rgba(255, 13, 13, 0.4));
+.icon-map {
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-app);
+    mask: url("../images/nav-ico/map.svg") no-repeat center;
+    -webkit-mask: url("../images/nav-ico/map.svg") no-repeat center;
 }
 
-.divider-bottom-navigaiton {
+.icon-grid {
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-app);
+    mask: url("../images/nav-ico/grid.svg") no-repeat center;
+    -webkit-mask: url("../images/nav-ico/grid.svg") no-repeat center;
+}
+.icon-calendar {
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-app);
+    mask: url("../images/nav-ico/calendar.svg") no-repeat center;
+    -webkit-mask: url("../images/nav-ico/calendar.svg") no-repeat center;
+}
+.icon-user {
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-app);
+    mask: url("../images/nav-ico/user.svg") no-repeat center;
+    -webkit-mask: url("../images/nav-ico/user.svg") no-repeat center;
+}
+.icon-settings {
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-app);
+    mask: url("../images/nav-ico/settings.svg") no-repeat center;
+    -webkit-mask: url("../images/nav-ico/settings.svg") no-repeat center;
+}
+
+.divider-bottom-navigation {
     width: 1px;
     background: var(--off-black);
     height: 30px;
@@ -43,6 +73,62 @@
     background: var(--primary-app);
     height: 30px;
     color: var(--primary-app);
+}
+
+.line {
+    width: 100%;
+    height: 3px;
+    background: var(--off-black);
+    margin: 20px 0;
+}
+
+h1 {
+    font: var(--title-font);
+    color: var(--off-black);
+    margin: 20px;
+    text-align: center;
+}
+
+.company-name {
+    margin: 0;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #111;
+}
+
+.divider-company-list {
+    width: 3px;
+    height: 56px;
+    background: #ff1f1f;
+    flex-shrink: 0;
+    border-radius: var(--border-radius);
+}
+
+.company-list-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.company-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 20px;
+    background: #cfcfcf;
+    border: 1.5px solid #1f1f1f;
+    border-radius: 24px;
+}
+
+.company-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.company-list a {
+    text-decoration: none;
 }
 
 .map-container {

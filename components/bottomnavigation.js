@@ -2,15 +2,15 @@ class BottomNavigation extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
             <nav class="bottom-navigation">
-                <a href="index.html"><img src="./images/nav-ico/map.svg" alt=""></a>
-                <div class="divider-bottom-navigaiton"></div>
-                <a href="companies.html"><img src="./images/nav-ico/grid.svg" alt=""></a>
-                <div class="divider-bottom-navigaiton"></div>
-                <a href="events.html"><img src="./images/nav-ico/callendar.svg" alt=""></a>
-                <div class="divider-bottom-navigaiton"></div>
-                <a href="profile.html"><img src="./images/nav-ico/user.svg" alt=""></a>
-                <div class="divider-bottom-navigaiton"></div>
-                <a href="settings.html"><img src="./images/nav-ico/settings.svg" alt=""></a>
+                <a href="index.html" class="icon-map"></a>
+                <div class="divider-bottom-navigation"></div>
+                <a href="companies.html" class="icon-grid"></a>
+                <div class="divider-bottom-navigation"></div>
+                <a href="events.html" class="icon-calendar"></a>
+                <div class="divider-bottom-navigation"></div>
+                <a href="profile.html" class="icon-user"></a>
+                <div class="divider-bottom-navigation"></div>
+                <a href="settings.html" class="icon-settings"></a>
             </nav>
         `;
     }
