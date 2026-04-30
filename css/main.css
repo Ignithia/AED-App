@@ -18,7 +18,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background: var(--off-white);
+    background: var(--off-black);
     display: flex;
     justify-content: space-around;
     padding: 1em 0;
@@ -63,7 +63,7 @@
 
 .divider-bottom-navigation {
     width: 1px;
-    background: var(--off-black);
+    background: var(--off-white);
     height: 30px;
     color: var(--off-white);
 }
@@ -80,6 +80,7 @@
     height: 3px;
     background: var(--off-black);
     margin: 20px 0;
+    border-radius: var(--border-radius);
 }
 
 h1 {
@@ -166,3 +167,4 @@ h1 {
     margin-left: 20px; /* align with the text inside the input field */
     cursor: pointer;
 }
+
