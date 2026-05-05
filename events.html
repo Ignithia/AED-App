@@ -13,19 +13,44 @@
 </head>
 <body>
 
-    <h1>Geplande Afspraken</h1>
+    <div class="tabs-container">
+        <div class="tabs">
+            <a href="events.html" class="tab active">Geplande<br>afspraken</a>
+            <a href="upcoming-appointments.html" class="tab">Aankomende<br>afspraken</a>
+            <a href="#" class="tab">Evenementen</a>
+        </div>
+    </div>
+    
+    <h2>Geplande afspraken</h2>
     <div class="line"></div>
 
-    <div class="events">
-        <div class="event">
-            <img src="./images/logo/woestijnvis-logo.png" class="event-company">
-            <div class="divider"></div>
-            <h2 class="company-name-event">Woestijnvis</h2>
-            <p>18/03/2024</p>
-            <div class="divider"></div>
-            <p>16:00</p>
+    <div class="events-list">
+        <a href="appointment-detail.html" style="text-decoration: none; color: inherit;">
+        <div class="event-card">
+            <div class="event-img-container">
+                <img src="./images/logo/woestijnvis-logo.png" alt="Woestijnvis" class="event-logo">
+            </div>
+            <div class="event-divider"></div>
+            <div class="event-info">
+                <h3 class="event-title">Woestijnvis</h3>
+                <p class="event-datetime">18/03/26 | 16:00</p>
+            </div>
         </div>
+        </a>
 
+        <a href="appointment-detail.html" style="text-decoration: none; color: inherit;">
+            <div class="event-card">
+                <div class="event-img-container">
+                    <img src="./images/logo/banijay-logo.png" alt="Banijay" class="event-logo">
+                </div>
+                <div class="event-divider"></div>
+                <div class="event-info">
+                    <h3 class="event-title">Banijay</h3>
+                    <p class="event-datetime">19/03/26 | 01:00</p>
+                </div>
+            </div>
+        </a>
+    </div>
 
    <bottom-navigation></bottom-navigation>
 
