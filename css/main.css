@@ -446,6 +446,189 @@ h2 {
     padding-left: 18px;
 }
 
+.profile-edit-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.profile-edit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 190px;
+    padding: 14px 28px;
+    border-radius: 22px;
+    background: #ff1f18;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.edit-company-page {
+    padding: 10px 16px 100px;
+}
+
+.edit-company-title {
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin: 0 0 10px;
+    font-weight: 700;
+    color: #111;
+}
+
+.edit-company-line {
+    width: 100%;
+    height: 3px;
+    background: #111;
+    margin-bottom: 14px;
+}
+
+.edit-company-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-company-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.edit-company-field label {
+    font-size: 0.75rem;
+    color: #333;
+    margin-left: 8px;
+}
+
+.edit-company-field input,
+.edit-company-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1.5px solid #555;
+    border-radius: 4px;
+    background: #fff;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.edit-company-field textarea {
+    resize: none;
+}
+
+.edit-company-field-large textarea {
+    min-height: 110px;
+}
+
+.edit-company-private-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2px;
+}
+
+.edit-company-private-label {
+    font-size: 1rem;
+    color: #222;
+}
+
+.edit-company-switch {
+    position: relative;
+    width: 64px;
+    height: 36px;
+    display: inline-block;
+}
+
+.edit-company-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.edit-company-slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #7a67ba;
+    box-shadow: inset 0 0 0 2px #7a67ba;
+}
+
+.edit-company-slider::before {
+    content: "";
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+.edit-company-switch input:checked + .edit-company-slider::before {
+    right: 4px;
+}
+
+.edit-company-switch input:not(:checked) + .edit-company-slider {
+    background: #cfc8dd;
+    box-shadow: inset 0 0 0 2px #9a90ae;
+}
+
+.edit-company-switch input:not(:checked) + .edit-company-slider::before {
+    right: auto;
+    left: 4px;
+}
+
+.edit-company-save {
+    align-self: center;
+    min-width: 170px;
+    margin-top: 2px;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 22px;
+    background: #ff1f18;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.edit-company-danger {
+    margin-top: 14px;
+}
+
+.edit-company-danger-line {
+    width: 100%;
+    height: 3px;
+    background: #111;
+    margin-bottom: 10px;
+}
+
+.edit-company-danger-title {
+    text-align: center;
+    font-size: 1.1rem;
+    margin: 0 0 12px;
+    font-weight: 700;
+    color: #111;
+}
+
+.edit-company-delete {
+    display: block;
+    margin: 0 auto;
+    min-width: 160px;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 22px;
+    background: #ff1f18;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
 .company-detail-page {
     padding: 8px 12px 100px;
 }
