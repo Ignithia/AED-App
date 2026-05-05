@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AED Studios - Company Detail</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <script src="./components/bottomnavigation.js"></script>
+</head>
+<body>
+
+    <div class="company-detail-page">
+        <div class="company-detail-logo-wrap">
+            <img src="./images/logo/banijay-logo.png" alt="Banijay Belgium" class="company-detail-logo">
+        </div>
+
+        <h2 class="company-detail-title">Banijay Belgium</h2>
+        <div class="company-detail-line"></div>
+
+        <section class="company-detail-section company-detail-info-block">
+            <div class="company-detail-row"><span>Telefoon:</span><span>03 291 11 00</span></div>
+            <div class="company-detail-row"><span>Contact persoon:</span><span>John Doe</span></div>
+            <div class="company-detail-row"><span>Email:</span><span>JohnDoe@banijay.be</span></div>
+        </section>
+
+        <section class="company-detail-section">
+            <h3 class="company-detail-section-title">Intro:</h3>
+            <p class="company-detail-text">Banijay Belgium behoort tot de Banijay Group, 's werelds grootste onafhankelijke content creator voor televisie en multimedia-platformen.</p>
+        </section>
+
+        <section class="company-detail-section">
+            <h3 class="company-detail-section-title">Tags:</h3>
+            <div class="company-detail-tags-grid">
+                <div class="company-detail-tag-card"><span class="company-detail-tag-hole" aria-hidden="true"></span><span class="company-detail-tag-label">TV</span></div>
+                <div class="company-detail-tag-card"><span class="company-detail-tag-hole" aria-hidden="true"></span><span class="company-detail-tag-label">Productiehuis</span></div>
+                <div class="company-detail-tag-card company-detail-tag-card-wide"><span class="company-detail-tag-hole" aria-hidden="true"></span><span class="company-detail-tag-label">Multimedia</span></div>
+            </div>
+        </section>
+
+        <div class="company-detail-actions">
+            <div class="company-detail-primary-wrap">
+                <a href="coffee-break.html" class="company-detail-primary">Coffee break</a>
+                <button class="company-detail-info-dot" type="button" aria-label="Meer info over Coffee break" id="coffee-break-info">i</button>
+            </div>
+            <button class="company-detail-secondary" type="button">Contact</button>
+        </div>
+
+        <div class="company-detail-photo" aria-hidden="true"></div>
+    </div>
+
+    <div class="coffee-break-modal" id="coffee-break-modal" aria-hidden="true">
+        <div class="coffee-break-modal-card" role="dialog" aria-modal="true" aria-labelledby="coffee-break-modal-title">
+            <button class="coffee-break-modal-close" type="button" aria-label="Sluiten" id="coffee-break-close">×</button>
+            <h3 class="coffee-break-modal-title" id="coffee-break-modal-title">Coffee Break</h3>
+            <p class="coffee-break-modal-text">Een zogenaamde “coffee break”, is bedoeld als een korte, informele pauze. Het is iets helemaal anders dan een echt contactmoment of een uitgebreide afspraak. Tijdens zo’n “coffee break” kan je kleine, luchtige onderwerpen bespreken, elkaar op een ontspannen manier beter leren kennen, of gewoon even gezellig samen iets drinken.</p>
+            <p class="coffee-break-modal-text">En ondanks de naam hoeft dat natuurlijk geen koffie te zijn. Een thee, een Cola of eender welk drankje werkt net zo goed. Het gaat vooral om het moment zelf: even loskomen van de drukte, een spontane babbel, en een laagdrempelige manier om verbinding te maken.</p>
+        </div>
+    </div>
+
+    <script>
+        const infoButton = document.getElementById('coffee-break-info');
+        const modal = document.getElementById('coffee-break-modal');
+        const closeButton = document.getElementById('coffee-break-close');
+
+        function openModal() {
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeModal() {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        infoButton.addEventListener('click', openModal);
+        closeButton.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+
+    <bottom-navigation></bottom-navigation>
+
+</body>
+</html>
