@@ -244,6 +244,155 @@ h2 {
     object-fit: contain;
 }
 
+
+.plan-event-link {
+    text-decoration: none;
+}
+
+.plan-event-button.plan-event-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.make-event-title {
+    margin: 12px 20px 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #111;
+}
+
+.make-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20px 100px;
+}
+
+.make-event-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.make-event-field label,
+.make-event-time-group label {
+    font-size: 0.75rem;
+    color: #333;
+    margin-left: 8px;
+}
+
+.make-event-field input,
+.make-event-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1.5px solid #666;
+    border-radius: 2px;
+    background: #fff;
+    padding: 10px 12px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.make-event-field-large textarea {
+    min-height: 86px;
+    resize: none;
+}
+
+.make-event-field-calendar {
+    position: relative;
+}
+
+.make-event-time-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 0 2px;
+    border: 1.5px solid #666;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.make-event-time-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 12px 6px;
+}
+
+.make-event-time-box {
+    width: 104px;
+    height: 62px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+.make-event-time-box-active {
+    background: #e8dcff;
+    border: 2px solid #7c59d6;
+}
+
+.make-event-time-box-muted {
+    background: #e7e0ec;
+}
+
+.make-event-time-value {
+    font-size: 2rem;
+    line-height: 1;
+    color: #4d3d8f;
+}
+
+.make-event-time-box-muted .make-event-time-value {
+    color: #222;
+}
+
+.make-event-time-caption {
+    margin-top: 4px;
+    font-size: 0.72rem;
+    color: #555;
+}
+
+.make-event-time-separator {
+    font-size: 2rem;
+    color: #222;
+    line-height: 1;
+    transform: translateY(-4px);
+}
+
+.make-event-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.make-event-save {
+    width: 160px;
+    border: none;
+    border-radius: 22px;
+    background: #ff1f18;
+    color: #fff;
+    padding: 14px 20px;
+    font-size: 1rem;
+}
+
+.make-event-cancel {
+    width: 160px;
+    border: 1.5px solid #ff1f18;
+    border-radius: 22px;
+    background: #fff;
+    color: #333;
+    padding: 14px 20px;
+    font-size: 1rem;
+}
 .event-divider {
     width: 2px;
     height: 40px;
