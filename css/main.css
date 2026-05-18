@@ -968,24 +968,24 @@ h2 {
 
 .company-detail-logo {
     width: 100%;
-    max-width: 460px;
+    max-width: 580px;
     height: auto;
 }
 
 .company-detail-title {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     line-height: 1.2;
-    margin: 14px 0 18px;
+    margin: 8px 0 12px;
     font-weight: 700;
     color: #111;
 }
 
 .company-detail-line {
-    width: 100%;
-    height: 3px;
+    width: 92%;
+    height: 2px;
     background: #111;
-    margin-bottom: 18px;
+    margin: 6px auto 18px;
 }
 
 .company-detail-section {
@@ -1007,8 +1007,9 @@ h2 {
 }
 
 .company-detail-row span:first-child {
-    width: 118px;
+    width: 88px;
     flex-shrink: 0;
+    font-weight:600;
 }
 
 .company-detail-section-title {
@@ -1028,44 +1029,51 @@ h2 {
 .company-detail-tags-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 14px 12px;
     align-items: stretch;
 }
 
 .company-detail-tag-card {
     position: relative;
-    min-height: 56px;
-    border: 1.8px solid #444;
-    border-radius: 20px;
-    background: #f4f4f4;
+    min-height: 64px;
+    border: 2px solid #111;
+    /* left side extra rounded, right side more square */
+    border-radius: 32px 8px 8px 32px;
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.92rem;
+    font-size: 0.95rem;
     color: #222;
-    overflow: hidden;
+    overflow: visible;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .company-detail-tag-card-wide {
-    grid-column: 1 / span 1;
-    margin-left: 26%;
-    margin-right: 26%;
+    grid-column: 1 / span 2;
+    justify-self: center;
+    max-width: 62%;
 }
 
 .company-detail-tag-hole {
     position: absolute;
-    left: 9px;
-    width: 14px;
-    height: 14px;
+    left: 12px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    border: 1.7px solid #2f2f2f;
-    background: #f8f8f8;
+    border: 2px solid #111;
+    background: #fff;
     box-sizing: border-box;
 }
 
 .company-detail-tag-label {
-    padding-left: 16px;
+    padding-left: 18px;
+    display: inline-block;
 }
+
+/* make label appear centered visually while leaving space for hole */
+.company-detail-tag-card .company-detail-tag-label{width:100%;text-align:center;margin-right:18px}
 
 .company-detail-actions {
     display: flex;
@@ -1083,48 +1091,52 @@ h2 {
 }
 
 .company-detail-primary {
-    min-width: 190px;
-    padding: 16px 28px;
+    min-width: 240px;
+    padding: 18px 48px;
     border: none;
-    border-radius: 22px;
-    background: #ff1f18;
+    border-radius: 999px; /* pill */
+    background: var(--primary-app);
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 400;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }
 
 .company-detail-info-dot {
     position: absolute;
-    right: -8px;
+    right: -12px;
     top: 50%;
     transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: #111;
     color: #fff;
-    font-size: 0.85rem;
-    line-height: 20px;
+    font-size: 0.9rem;
+    line-height: 26px;
     text-align: center;
     border: none;
     padding: 0;
     cursor: pointer;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
 
 .company-detail-secondary {
     min-width: 190px;
     padding: 14px 28px;
-    border: 2px solid #ff1f18;
-    border-radius: 22px;
-    background: #f2f2f2;
+    border: 2px solid var(--primary-app);
+    border-radius: 999px;
+    background: #fff;
     color: #222;
     font-size: 1rem;
     font-weight: 400;
 }
+
+.company-detail-actions{margin-top:18px}
 
 .company-detail-photo {
     width: 100%;
@@ -1135,7 +1147,7 @@ h2 {
 .coffee-break-modal {
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 0.82);
+    background: rgba(17,17,17,0.75);
     display: none;
     align-items: center;
     justify-content: center;
@@ -1150,10 +1162,11 @@ h2 {
 .coffee-break-modal-card {
     position: relative;
     width: min(100%, 860px);
-    background: #f5f5f5;
+    background: #fff;
     border-radius: 28px;
-    padding: 36px 28px 28px;
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+    padding: 40px 44px 36px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+    border: 2px solid #111;
 }
 
 .coffee-break-modal-close {
@@ -1721,3 +1734,17 @@ h2 {
     text-align: center;
 }
 }
+
+/* --- Enforced company-detail fixes (override accidental resets) --- */
+.company-detail-tags-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+.company-detail-tag-card{display:flex;align-items:center;justify-content:center;min-height:56px;border:1.8px solid #444;border-radius:20px;background:#f4f4f4;color:#222;font-size:0.92rem;overflow:hidden}
+.company-detail-tag-label{padding-left:16px;font-size:0.95rem}
+.company-detail-tag-hole{left:9px}
+.company-detail-primary{background:var(--primary-app) !important;color:#fff !important;text-decoration:none !important;display:inline-flex;align-items:center;justify-content:center}
+.company-detail-primary:hover{text-decoration:none;opacity:0.95}
+.company-detail-secondary{background:#f2f2f2 !important;border-color:var(--primary-app) !important;color:#222 !important}
+.company-detail-info-dot{background:#111 !important;color:#fff !important}
+.company-detail-primary-wrap a.company-detail-primary{text-decoration:none}
+
+/* Accessibility: ensure focus styles visible */
+.company-detail-primary:focus,.company-detail-secondary:focus,.company-detail-info-dot:focus{outline:3px solid rgba(255,31,31,0.18);outline-offset:3px}
