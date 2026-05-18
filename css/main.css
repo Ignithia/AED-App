@@ -498,6 +498,7 @@ body {
 
 .carousel-control:active {
     transform: scale(0.95);
+}
 
 .notification-overlay {
     position: fixed;
