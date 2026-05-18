@@ -551,22 +551,31 @@ body {
     }
 
     .notification-carousel {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+    }
+
+    .notification-carousel-frame {
+        grid-column: 1 / -1;
+        grid-row: 1;
     }
 
     .carousel-control {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 1;
+        position: static;
+        transform: none;
+        top: auto;
+        z-index: auto;
+        grid-row: 2;
     }
 
     .carousel-control-prev {
-        left: 8px;
+        left: auto;
+        grid-column: 1;
     }
 
     .carousel-control-next {
-        right: 8px;
+        right: auto;
+        grid-column: 2;
     }
 }
 
