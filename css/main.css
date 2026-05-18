@@ -574,6 +574,208 @@ body {
     margin-bottom: 10px;
 }
 
+.notification-overlay-tags {
+    margin: 18px 0 14px;
+}
+
+.notification-tags-section {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 3px solid #111;
+}
+
+.notification-tag-accordion {
+    margin: 0 0 18px;
+    border: 2px solid #111;
+    border-radius: 24px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.notification-tag-accordion-summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111;
+    cursor: pointer;
+}
+
+.notification-tag-accordion-summary::-webkit-details-marker {
+    display: none;
+}
+
+.notification-tag-accordion-summary::after {
+    content: '▾';
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.notification-tag-accordion[open] .notification-tag-accordion-summary::after {
+    content: '▴';
+}
+
+.notification-tag-accordion-body {
+    padding: 0 16px 16px;
+}
+
+.notification-tag-accordion-text {
+    margin: 0 0 12px;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.notification-selected-tags {
+    margin-top: 2px;
+}
+
+.notification-owner-tags {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1.5px solid #d6d6d6;
+}
+
+.notification-owner-tags-text {
+    margin: 0 0 12px;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.notification-create-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 25;
+}
+
+.notification-create-overlay.is-open {
+    display: block;
+}
+
+.notification-create-overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 17, 17, 0.58);
+}
+
+.notification-create-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(100% - 32px, 520px);
+    max-height: min(86vh, 760px);
+    overflow: auto;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 24px 22px 22px;
+    border-radius: 28px;
+    background: #fff;
+    border: 2px solid #111;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+}
+
+.notification-create-panel h2 {
+    margin: 0 0 10px;
+    text-align: left;
+    font-size: 1.5rem;
+    color: #111;
+}
+
+.notification-form-field,
+.notification-form-group {
+    display: block;
+    margin: 0 0 14px;
+}
+
+.notification-form-field span,
+.notification-form-group-title {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111;
+}
+
+.notification-form-input,
+.notification-form-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1.5px solid #c8c8c8;
+    border-radius: 18px;
+    padding: 12px 14px;
+    font: inherit;
+    color: #111;
+    background: #fff;
+}
+
+.notification-form-textarea {
+    resize: vertical;
+    min-height: 96px;
+}
+
+.notification-checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.notification-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border: 1.5px solid #d2d2d2;
+    border-radius: 16px;
+    background: #f7f7f7;
+    color: #222;
+    cursor: pointer;
+}
+
+.notification-checkbox-item input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: #ff1f1f;
+}
+
+.notification-create-tag-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+}
+
+.notification-tag-add-button,
+.notification-create-actions .home-create-button {
+    min-height: 46px;
+}
+
+.notification-created-tags {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.notification-form-empty {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.notification-create-actions {
+    margin-top: 4px;
+}
+
+.notification-create-panel .overlay-close {
+    z-index: 1;
+}
+
 @media (max-width: 640px) {
     .home-page {
         padding: 14px 14px 110px;
@@ -605,6 +807,23 @@ body {
     .carousel-control-next {
         right: auto;
         grid-column: 2;
+    }
+
+    .notification-create-panel {
+        padding: 22px 18px 18px;
+    }
+
+    .notification-checkbox-grid,
+    .notification-created-tags {
+        grid-template-columns: 1fr;
+    }
+
+    .notification-create-tag-row {
+        grid-template-columns: 1fr;
+    }
+
+    .notification-tag-accordion-summary {
+        padding: 14px 16px;
     }
 }
 
