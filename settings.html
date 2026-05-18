@@ -11,20 +11,35 @@
 
     <style>
     :root{--brand:#d32f2f}
-    .settings-container{max-width:980px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:1fr;gap:16px}
+    .settings-container{max-width:980px;margin:24px auto;padding:0 16px 120px;display:grid;grid-template-columns:1fr;gap:16px}
     .settings-card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
     .settings-card h3{margin:0 0 8px;font-size:1.05rem;color:var(--brand)}
     .settings-row{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
     .settings-label{font-weight:600;color:#222}
     .settings-actions{display:flex;gap:8px}
     .btn{padding:8px 12px;border-radius:8px;border:1px solid #ddd;background:#f7f7f7;cursor:pointer}
-    .btn.primary{background:var(--brand);color:#fff;border-color:transparent}
+    .btn.primary{background:var(--brand);color:#fff;border-color:transparent;padding:10px 18px;min-width:140px}
     .btn.destructive{background:#fff;border-color:var(--brand);color:var(--brand)}
     .small-muted{font-size:0.9rem;color:#666}
     .blocked-list{list-style:none;padding:0;margin:8px 0 0}
     .blocked-list li{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #f0f0f0}
-    input[type=range]{width:160px}
     @media(min-width:800px){.settings-container{grid-template-columns:1fr 1fr}}
+    /* make account actions span both columns on wide screens */
+    .settings-card.account-actions{grid-column:1 / -1}
+
+    /* Custom checkbox styles */
+    input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:20px;height:20px;border:2px solid #ccc;border-radius:6px;display:inline-block;position:relative;vertical-align:middle;background:#fff;cursor:pointer;margin-left:12px}
+    input[type="checkbox"]:focus{outline:none;box-shadow:0 0 0 3px rgba(211,47,47,0.15)}
+    input[type="checkbox"]:checked{background:var(--brand);border-color:var(--brand)}
+    input[type="checkbox"]:checked::after{content:'';position:absolute;left:5px;top:1px;width:6px;height:12px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+
+    /* Custom select styles */
+    select{appearance:none;-webkit-appearance:none;padding:8px 36px 8px 12px;border:1px solid #ddd;border-radius:8px;background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 4l4 4 4-4' stroke='%23333' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 10px center;background-size:12px}
+    select:focus{outline:none;box-shadow:0 0 0 3px rgba(211,47,47,0.12)}
+
+    /* Align label + input rows */
+    .settings-row > span.settings-label{margin-right:12px}
+
     </style>
 </head>
 <body>
@@ -97,7 +112,7 @@
             </div>
         </div>
 
-        <div class="settings-card">
+        <div class="settings-card account-actions">
             <h3>Account acties</h3>
             <div class="settings-row">
                 <div class="small-muted">Download of verwijder je account hieronder.</div>
