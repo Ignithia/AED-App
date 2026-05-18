@@ -1,5 +1,10 @@
 @import url(./vars.css);
 
+::selection{
+    background: var(--primary-app);
+    color: #fff;
+}
+
 * {
   font-family: 'Rubik', sans-serif;
 }
@@ -1732,14 +1737,267 @@ h2 {
     text-align: center;
 }
 
-.company-detail-tags-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
-.company-detail-tag-card{display:flex;align-items:center;justify-content:center;min-height:56px;border:1.8px solid #444;border-radius:20px;background:#f4f4f4;color:#222;font-size:0.92rem;overflow:hidden}
-.company-detail-tag-label{padding-left:16px;font-size:0.95rem}
-.company-detail-tag-hole{left:9px}
-.company-detail-primary{background:var(--primary-app) !important;color:#fff !important;text-decoration:none !important;display:inline-flex;align-items:center;justify-content:center}
-.company-detail-primary:hover{text-decoration:none;opacity:0.95}
-.company-detail-secondary{background:#f2f2f2 !important;border-color:var(--primary-app) !important;color:#222 !important}
-.company-detail-info-dot{background:#111 !important;color:#fff !important}
-.company-detail-primary-wrap a.company-detail-primary{text-decoration:none}
+.company-detail-tags-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    align-items: stretch;
+}
 
-.company-detail-primary:focus,.company-detail-secondary:focus,.company-detail-info-dot:focus{outline:3px solid rgba(255,31,31,0.18);outline-offset:3px}
+.company-detail-tag-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    border: 1.8px solid #444;
+    border-radius: 20px;
+    background: #f4f4f4;
+    color: #222;
+    font-size: 0.92rem;
+    overflow: hidden;
+}
+
+.company-detail-tag-label {
+    padding-left: 16px;
+    font-size: 0.95rem;
+}
+
+.company-detail-tag-hole {
+    left: 9px;
+}
+
+.company-detail-primary {
+    background: var(--primary-app) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.company-detail-primary:hover {
+    text-decoration: none;
+    opacity: 0.95;
+}
+
+.company-detail-secondary {
+    background: #f2f2f2 !important;
+    border-color: var(--primary-app) !important;
+    color: #222 !important;
+}
+
+.company-detail-info-dot {
+    background: #111 !important;
+    color: #fff !important;
+}
+
+.company-detail-primary-wrap a.company-detail-primary {
+    text-decoration: none;
+}
+
+.company-detail-primary:focus,
+.company-detail-secondary:focus,
+.company-detail-info-dot:focus {
+    outline: 3px solid rgba(255, 31, 31, 0.18);
+    outline-offset: 3px;
+}
+
+:root {
+    --brand: #d32f2f;
+}
+
+.settings-container {
+    max-width: 980px;
+    margin: 24px auto;
+    padding: 0 16px 120px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.settings-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.settings-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    color: var(--brand);
+}
+
+.settings-profile-card {
+    display: grid;
+    gap: 12px;
+}
+
+.settings-profile-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.settings-profile-avatar {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #111;
+    background: #f4f4f4;
+}
+
+.settings-profile-file-button {
+    min-width: 170px;
+}
+
+.settings-profile-card input[type="file"] {
+    display: none;
+}
+
+.settings-profile-row {
+    gap: 12px;
+}
+
+.settings-text-input {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px 12px;
+    font-size: 1rem;
+    color: #222;
+}
+
+.settings-text-input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+.settings-label {
+    font-weight: 600;
+    color: #222;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #000000;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: var(--brand);
+    color: #fff;
+    border-color: transparent;
+    padding: 10px 18px;
+    min-width: 140px;
+}
+
+.btn.destructive {
+    background: #fff;
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.small-muted {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.blocked-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+}
+
+.blocked-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+@media (min-width: 800px) {
+    .settings-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.settings-card.account-actions {
+    grid-column: 1 / -1;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    background: #fff;
+    cursor: pointer;
+    margin-left: 12px;
+}
+
+input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15);
+}
+
+input[type="checkbox"]:checked {
+    background: var(--brand);
+    border-color: var(--brand);
+}
+
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 12px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 8px 36px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 4l4 4 4-4' stroke='%23333' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 10px center;
+    background-size: 12px;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+}
+
+.settings-row > span.settings-label {
+    margin-right: 12px;
+}
