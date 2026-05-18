@@ -7,41 +7,109 @@
     <title>AED Studios - Instellingen</title>
 
     <link rel="stylesheet" href="css/main.css">
-
     <script src="./components/bottomnavigation.js"></script>
+
+    <style>
+    :root{--brand:#d32f2f}
+    .settings-container{max-width:980px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:1fr;gap:16px}
+    .settings-card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .settings-card h3{margin:0 0 8px;font-size:1.05rem;color:var(--brand)}
+    .settings-row{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
+    .settings-label{font-weight:600;color:#222}
+    .settings-actions{display:flex;gap:8px}
+    .btn{padding:8px 12px;border-radius:8px;border:1px solid #ddd;background:#f7f7f7;cursor:pointer}
+    .btn.primary{background:var(--brand);color:#fff;border-color:transparent}
+    .btn.destructive{background:#fff;border-color:var(--brand);color:var(--brand)}
+    .small-muted{font-size:0.9rem;color:#666}
+    .blocked-list{list-style:none;padding:0;margin:8px 0 0}
+    .blocked-list li{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #f0f0f0}
+    input[type=range]{width:160px}
+    @media(min-width:800px){.settings-container{grid-template-columns:1fr 1fr}}
+    </style>
 </head>
 <body>
 
-    <div class="settings-page">
-        <h2 class="settings-title">Instellingen</h2>
-        <div class="settings-line"></div>
-
-        <div class="settings-item settings-language-row">
-            <label class="settings-label" for="settings-language">Taal:</label>
-            <select id="settings-language" class="settings-select">
-                <option>Nederlands</option>
-                <option>Français</option>
-                <option>English</option>
-                <option>Deutsch</option>
-            </select>
+    <div class="settings-container">
+        <div class="settings-card">
+            <h3>Taal</h3>
+            <div class="settings-row">
+                <div>
+                    <select id="settings-language">
+                        <option>Nederlands</option>
+                        <option>Français</option>
+                        <option>English</option>
+                        <option>Deutsch</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <div class="settings-item settings-toggle-row">
-            <span class="settings-label">Notificaties:</span>
-            <label class="settings-switch">
-                <input type="checkbox">
-                <span class="settings-slider"></span>
-            </label>
+        <div class="settings-card">
+            <h3>Privacy</h3>
+            <div class="settings-row">
+                <div class="settings-label">Profiel zichtbaar als</div>
+                <select id="privacy-visibility">
+                    <option value="public">Openbaar</option>
+                    <option value="private">Privé</option>
+                </select>
+            </div>
         </div>
 
-        <div class="settings-item settings-toggle-row">
-            <span class="settings-label">Evenement pop-ups:</span>
-            <label class="settings-switch">
-                <input type="checkbox">
-                <span class="settings-slider"></span>
-            </label>
+        <div class="settings-card">
+            <h3>Notificaties</h3>
+            <div class="settings-row">
+                <span class="settings-label">Ontvang push-notificaties</span>
+                <input type="checkbox" id="notif-push" checked>
+            </div>
+            <div class="settings-row">
+                <span class="settings-label">E-mailmeldingen</span>
+                <input type="checkbox" id="notif-email" checked>
+            </div>
+            <div class="settings-row">
+                <span class="settings-label">Evenement pop-ups</span>
+                <input type="checkbox" id="notif-popups" checked>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h3>Media</h3>
+            <div class="settings-row">
+                <span class="settings-label">Auto play video's</span>
+                <input type="checkbox" id="autoplay-videos" checked>
+            </div>
+            <div class="settings-row">
+                <span class="settings-label">Blokkeer pop-ups</span>
+                <input type="checkbox" id="block-popups">
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h3>Audio</h3>
+            <div class="settings-row">
+                <span class="settings-label">Audio uit</span>
+                <input type="checkbox" id="audio-muted">
+            </div>
+        </div>
+
+        <div class="settings-row">
+            <div class="settings-actions">
+                <button id="save-settings" class="btn primary">Opslaan</button>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h3>Account acties</h3>
+            <div class="settings-row">
+                <div class="small-muted">Download of verwijder je account hieronder.</div>
+                <div class="settings-actions">
+                    <button id="download-data" class="btn">Download gegevens</button>
+                    <button id="delete-account" class="btn destructive">Verwijder account</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script src="js/settings.js"></script>
 
     <bottom-navigation></bottom-navigation>
 
