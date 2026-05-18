@@ -4,8 +4,6 @@ class BottomNavigation extends HTMLElement {
             <nav class="bottom-navigation">
                 <a href="index.html" class="icon-home"></a>
                 <div class="divider-bottom-navigation"></div>
-                <a href="companies.html" class="icon-grid"></a>
-                <div class="divider-bottom-navigation"></div>
                 <a href="events.html" class="icon-calendar"></a>
                 <div class="divider-bottom-navigation"></div>
                 <a href="profile.html" class="icon-user"></a>

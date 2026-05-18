@@ -363,10 +363,18 @@ body {
 }
 
 .home-map-cta .home-map-button {
-    min-width: 180px;
-    background: #111;
-    border: 1px solid #111;
+    min-width: 400px;
+    background: var(--primary-app);
+    border: 1px solid var(--primary-app);
     color: #fff;
+    gap: 10px;
+}
+
+.home-map-button-icon {
+    width: 1.1em;
+    height: 1.1em;
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
 }
 
 .home-section {
@@ -420,6 +428,7 @@ body {
     padding: 18px;
     background: #fff;
     border: 1.5px solid #d8d8d8;
+    border-radius: 24px;
     cursor: pointer;
     outline: none;
 }
