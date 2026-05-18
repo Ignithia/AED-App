@@ -172,11 +172,10 @@ h1 {
 .arrow-icon {
     width: 20px;
     height: 20px;
-    margin-left: 20px; /* align with the text inside the input field */
+    margin-left: 20px;
     cursor: pointer;
 }
 
-/* --- Settings Page Styles --- */
 .settings-page {
     padding: 10px 16px 90px;
 }
@@ -279,7 +278,6 @@ h1 {
     background: #6b8d66;
 }
 
-/* --- Events Page Styles --- */
 body {
     background-color: #f2f2f2;
 }
@@ -650,7 +648,7 @@ h2 {
     flex-direction: column;
     gap: 15px;
     padding: 0 20px;
-    margin-bottom: 80px; /* space for bottom nav */
+    margin-bottom: 80px;
 }
 
 .event-card {
@@ -1038,7 +1036,7 @@ h2 {
     position: relative;
     min-height: 64px;
     border: 2px solid #111;
-    /* left side extra rounded, right side more square */
+
     border-radius: 32px 8px 8px 32px;
     background: #fff;
     display: flex;
@@ -1073,7 +1071,6 @@ h2 {
     display: inline-block;
 }
 
-/* make label appear centered visually while leaving space for hole */
 .company-detail-tag-card .company-detail-tag-label{width:100%;text-align:center;margin-right:18px}
 
 .company-detail-actions {
@@ -1095,7 +1092,7 @@ h2 {
     min-width: 240px;
     padding: 18px 48px;
     border: none;
-    border-radius: 999px; /* pill */
+    border-radius: 999px;
     background: var(--primary-app);
     color: #fff;
     font-size: 1.05rem;
@@ -1735,7 +1732,6 @@ h2 {
     text-align: center;
 }
 
-/* --- Enforced company-detail fixes (override accidental resets) --- */
 .company-detail-tags-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
 .company-detail-tag-card{display:flex;align-items:center;justify-content:center;min-height:56px;border:1.8px solid #444;border-radius:20px;background:#f4f4f4;color:#222;font-size:0.92rem;overflow:hidden}
 .company-detail-tag-label{padding-left:16px;font-size:0.95rem}
@@ -1746,5 +1742,4 @@ h2 {
 .company-detail-info-dot{background:#111 !important;color:#fff !important}
 .company-detail-primary-wrap a.company-detail-primary{text-decoration:none}
 
-/* Accessibility: ensure focus styles visible */
 .company-detail-primary:focus,.company-detail-secondary:focus,.company-detail-info-dot:focus{outline:3px solid rgba(255,31,31,0.18);outline-offset:3px}
