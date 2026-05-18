@@ -371,6 +371,7 @@ body {
 
 .home-section {
     margin-top: 22px;
+    margin-bottom: 40px;
 }
 
 .home-section-header {
@@ -473,6 +474,26 @@ body {
     line-height: 1;
     cursor: pointer;
 }
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-control:hover {
+    background: #ff1f1f;
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(255, 31, 31, 0.4);
+}
+
+.carousel-control:focus-visible {
+    outline: 2px solid #ff1f1f;
+    outline-offset: 3px;
+}
+
+.carousel-control:active {
+    transform: scale(0.95);
 
 .notification-overlay {
     position: fixed;
