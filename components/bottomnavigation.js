@@ -2,7 +2,7 @@ class BottomNavigation extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
             <nav class="bottom-navigation">
-                <a href="index.html" class="icon-map"></a>
+                <a href="index.html" class="icon-home"></a>
                 <div class="divider-bottom-navigation"></div>
                 <a href="companies.html" class="icon-grid"></a>
                 <div class="divider-bottom-navigation"></div>
