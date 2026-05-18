@@ -474,12 +474,6 @@ body {
     line-height: 1;
     cursor: pointer;
 }
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
 
 .carousel-control:hover {
     background: #ff1f1f;
@@ -1716,4 +1710,4 @@ h2 {
     cursor: pointer;
     text-align: center;
 }
-
+}
