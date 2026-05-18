@@ -14,10 +14,7 @@ class Tag extends HTMLElement {
     render() {
         const name = this.getAttribute("name") || "Tag";
 
-        this.innerHTML = 
-                            `<div class="profile-tag-card"><span class="profile-tag-hole" aria-hidden="true"></span><span class="profile-tag label">${name}</span></div>`
-
-        ;
+        this.innerHTML = `<div class="profile-tag-card"><span class="profile-tag-hole" aria-hidden="true"></span><span class="profile-tag-label">${name}</span></div>`;
     }
 }
 

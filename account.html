@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AED Studios - Account</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <script src="./components/bottomnavigation.js"></script>
+</head>
+<body>
+    <main class="account-page">
+        <section class="account-hero">
+            <p class="account-eyebrow">AED Studios</p>
+            <h1 class="account-title">Account</h1>
+            <p class="account-intro">Beheer je toegang, wifi-status en accountinstellingen vanaf één scherm.</p>
+        </section>
+
+        <section class="account-card account-login-card" id="accountLoginCard">
+            <h2 id="accountLoginTitle">Login als gast</h2>
+            <p class="account-card-text">Je bent nog niet ingelogd. Kies een type account om verder te gaan.</p>
+            <div class="account-login-grid">
+                <label class="account-field">
+                    <span>Naam of e-mail</span>
+                    <input id="accountLoginName" type="text" value="guest@aedstudios.local" autocomplete="username">
+                </label>
+                <label class="account-field">
+                    <span>Account type</span>
+                    <select id="accountLoginRole">
+                        <option value="guest" selected>Gast account</option>
+                        <option value="company">Bedrijf</option>
+                    </select>
+                </label>
+            </div>
+            <div class="account-actions-row">
+                <button class="btn primary" id="accountLoginButton" type="button">Inloggen</button>
+            </div>
+        </section>
+
+        <section class="account-card account-login-card" id="accountLoginCard">
+            <h2 id="accountLoginTitle">Login als bedrijf</h2>
+            <p class="account-card-text">Je bent nog niet ingelogd. Vul je Codes in om verder te gaan.</p>
+            <div class="account-login-grid">
+                <label class="account-field">
+                    <span>Bedrijfs Code</span>
+                    <input id="accountLoginName" type="text" value="****" autocomplete="username">
+                </label>
+                <label class="account-field">
+                    <span>Account Code</span>
+                    <input id="accountLoginName" type="text" value="****" autocomplete="username">
+                </label>
+            </div>
+            <div class="account-actions-row">
+                <button class="btn primary" id="accountLoginButton" type="button">Inloggen</button>
+            </div>
+        </section>
+
+        <section class="account-card account-session-card" id="accountSessionCard" hidden>
+            <div class="account-session-header">
+                <img class="account-avatar" id="accountAvatar" src="./images/person-pfp.png" alt="Profielfoto">
+                <div>
+                    <p class="account-session-eyebrow">U bent momenteel ingelogd als:</p>
+                    <div class="account-session-name-row">
+                        <span class="account-session-name" id="accountSessionName">-</span>
+                        <span class="account-session-divider" aria-hidden="true">|</span>
+                        <span class="account-session-role" id="accountSessionRole">-</span>
+                    </div>
+                    <p class="account-card-text" id="accountSessionMeta"></p>
+                </div>
+            </div>
+
+            <div class="account-actions-row account-actions-stack">
+                <button class="btn primary" id="accountLogoutButton" type="button">Uitloggen</button>
+                <a class="btn" id="accountEditButton" href="settings.html">Account wijzigen</a>
+                <a class="btn account-admin-button" id="accountAdminButton" href="admin.html">Pagina aanmaken</a>
+                <a class="btn" id="accountCompaniesButton" href="companies.html">Bedrijven beheren</a>
+            </div>
+        </section>
+
+        <section class="account-card">
+            <div class="account-section-header">
+                <h2>Tags</h2>
+                <span class="account-status-pill">Beheer</span>
+            </div>
+            <p class="account-card-text">Admins passen tags en banner-inhoud aan via de pagina aanmaken.</p>
+            <div class="account-actions-row">
+                <a class="btn" href="admin.html">Tags aanpassen</a>
+            </div>
+        </section>
+    </main>
+
+    <bottom-navigation></bottom-navigation>
+
+    <script>
+        (() => {
+            const sessionKey = 'aed_account_session';
+
+            const sessionDefaults = {
+                isLoggedIn: false,
+                role: 'guest',
+                displayName: 'Gast account',
+                email: '',
+                avatar: './images/person-pfp.png'
+            };
+
+            const accountLoginCard = document.getElementById('accountLoginCard');
+            const accountSessionCard = document.getElementById('accountSessionCard');
+            const accountLoginName = document.getElementById('accountLoginName');
+            const accountLoginRole = document.getElementById('accountLoginRole');
+            const accountLoginButton = document.getElementById('accountLoginButton');
+            const accountLogoutButton = document.getElementById('accountLogoutButton');
+            const accountAdminButton = document.getElementById('accountAdminButton');
+            const accountCompaniesButton = document.getElementById('accountCompaniesButton');
+            const accountEditButton = document.getElementById('accountEditButton');
+            const accountAvatar = document.getElementById('accountAvatar');
+            const accountSessionName = document.getElementById('accountSessionName');
+            const accountSessionRole = document.getElementById('accountSessionRole');
+            const accountSessionMeta = document.getElementById('accountSessionMeta');
+            const wifiStatusPill = document.getElementById('wifiStatusPill');
+            const wifiStatusText = document.getElementById('wifiStatusText');
+            const wifiStatusValue = document.getElementById('wifiStatusValue');
+            const wifiConnectionType = document.getElementById('wifiConnectionType');
+            const wifiRefreshButton = document.getElementById('wifiRefreshButton');
+
+            const roleLabels = {
+                guest: 'Gast account',
+                company: 'Bedrijf AED Studios',
+                admin: 'Admin AED Studios'
+            };
+
+            const readSession = () => {
+                try {
+                    const raw = localStorage.getItem(sessionKey);
+                    return raw ? { ...sessionDefaults, ...JSON.parse(raw) } : sessionDefaults;
+                } catch (error) {
+                    return sessionDefaults;
+                }
+            };
+
+            const saveSession = (session) => {
+                localStorage.setItem(sessionKey, JSON.stringify(session));
+            };
+
+            const updateWifiStatus = () => {
+                const online = navigator.onLine;
+                const connection = navigator.connection;
+                const effectiveType = connection?.effectiveType || 'onbekend';
+                const downlink = typeof connection?.downlink === 'number' ? `${connection.downlink.toFixed(1)} Mb/s` : 'onbekend';
+
+                wifiStatusPill.textContent = online ? 'Verbonden' : 'Offline';
+                wifiStatusPill.classList.toggle('is-offline', !online);
+                wifiStatusText.textContent = online ? 'Dit toestel is verbonden met het netwerk.' : 'De verbinding lijkt verbroken. Controleer wifi of mobiele data.';
+                wifiStatusValue.textContent = online ? 'Online' : 'Offline';
+                wifiConnectionType.textContent = `${effectiveType} · ${downlink}`;
+            };
+
+            const render = () => {
+                const session = readSession();
+                const loggedIn = session.isLoggedIn;
+
+                accountLoginCard.hidden = loggedIn;
+                accountSessionCard.hidden = !loggedIn;
+
+                accountAdminButton.hidden = session.role !== 'admin';
+                accountCompaniesButton.hidden = session.role === 'guest';
+                accountEditButton.hidden = session.role === 'guest';
+
+                if (loggedIn) {
+                    accountAvatar.src = session.avatar || './images/person-pfp.png';
+                    accountSessionName.textContent = session.displayName || session.email || 'Ingelogd account';
+                    accountSessionRole.textContent = roleLabels[session.role] || roleLabels.company;
+                    accountSessionMeta.textContent = session.email ? session.email : 'Geen e-mailadres ingesteld.';
+                }
+
+                updateWifiStatus();
+            };
+
+            accountLoginButton.addEventListener('click', () => {
+                const role = accountLoginRole.value;
+                const enteredName = accountLoginName.value.trim() || (role === 'admin' ? 'AED Admin' : role === 'guest' ? 'Gast account' : 'Bedrijf AED Studios');
+
+                saveSession({
+                    isLoggedIn: true,
+                    role,
+                    displayName: enteredName,
+                    email: role === 'guest' ? '' : accountLoginName.value.trim(),
+                    avatar: './images/person-pfp.png'
+                });
+
+                render();
+            });
+
+            accountLogoutButton.addEventListener('click', () => {
+                saveSession({ ...sessionDefaults });
+                render();
+            });
+
+            wifiRefreshButton.addEventListener('click', updateWifiStatus);
+            window.addEventListener('online', updateWifiStatus);
+            window.addEventListener('offline', updateWifiStatus);
+
+            render();
+        })();
+    </script>
+</body>
+</html>

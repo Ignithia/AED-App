@@ -31,7 +31,7 @@
             </div>
         </section>
 
-         <div class="home-map-cta">
+        <div class="home-map-cta">
             <a class="btn home-map-button" href="map.html">
                 <img class="home-map-button-icon" src="./images/nav-ico/map.svg" alt="" aria-hidden="true">
                 <span>Open map</span>
@@ -45,14 +45,15 @@
             </a>
         </div>
 
-        <section class="home-banner" aria-labelledby="home-banner-title">
-            <p class="home-eyebrow">AED Studios</p>
+        <section class="home-banner" aria-labelledby="home-banner-title" id="homeBanner">
+            <p class="home-eyebrow" id="homeBannerEyebrow">AED Studios</p>
             <h1 id="home-banner-title">Visuele communicatie voor bedrijven en theater</h1>
-            <p class="home-banner-text">
+            <p class="home-banner-text" id="homeBannerText">
                 Plaats een banner of boodschap op de homepagina om bedrijven extra in de picture te zetten of een theater voorstelling te promoten.
             </p>
             <div class="home-banner-actions">
-                <button class="btn home-create-button" id="createNotificationButton" type="button">Create notification</button>
+                <button class="btn home-create-button" id="createNotificationButton" type="button">Notificatie maken</button>
+                <a class="btn home-banner-edit-button" href="admin.html">Banner aanpassen</a>
             </div>
         </section>
 
@@ -94,6 +95,16 @@
                 <h3 class="notification-form-group-title" id="notificationInterestsTitle">Geïnteresseerd in</h3>
                 <div class="notification-created-tags notification-selected-tags" id="notificationSelectedTags"></div>
             </section>
+
+            <section class="notification-form-group" aria-labelledby="notificationTagsTitle">
+                <h3 class="notification-form-group-title" id="notificationTagsTitle">Extra tags toevoegen</h3>
+                <p class="notification-tag-accordion-text">Voeg een tag toe of verwijder bestaande tags uit de notificatie.</p>
+                <div class="notification-create-tag-row">
+                    <input class="notification-form-input" id="notificationTagInput" type="text" placeholder="Bijv. Homepagina">
+                    <button class="btn notification-tag-add-button" id="notificationTagAddButton" type="button">Toevoegen</button>
+                </div>
+                <div class="notification-created-tags notification-created-tags-editable" id="notificationCreatedTags"></div>
+            </section>
         </section>
     </main>
 
@@ -124,12 +135,12 @@
         <div class="notification-overlay-backdrop" data-close-overlay></div>
         <section class="notification-overlay-panel" role="dialog" aria-modal="true" aria-labelledby="notificationOverlayTitle">
             <button class="overlay-close" type="button" aria-label="Sluit notificatiedetails" data-close-overlay>×</button>
-            <h2 id="notificationOverlayTitle"></h2>
-            <p class="notification-overlay-meta" id="notificationOverlayMeta"></p>
             <section class="notification-overlay-tags" aria-labelledby="notificationOverlayTagsTitle">
                 <h3 class="company-detail-section-title" id="notificationOverlayTagsTitle">Tags:</h3>
                 <div class="company-detail-tags-grid" id="notificationOverlayTags"></div>
             </section>
+            <h2 id="notificationOverlayTitle"></h2>
+            <p class="notification-overlay-meta" id="notificationOverlayMeta"></p>
             <p class="notification-overlay-text" id="notificationOverlayText"></p>
         </section>
     </div>
@@ -138,6 +149,31 @@
 
     <script>
         (() => {
+            const storageKeys = {
+                banner: 'aed_home_banner_config',
+                tags: 'aed_admin_tags'
+            };
+
+            const defaultBanner = {
+                eyebrow: 'AED Studios',
+                title: 'Visuele communicatie voor bedrijven en theater',
+                text: 'Plaats een banner of boodschap op de homepagina om bedrijven extra in de picture te zetten of een theater voorstelling te promoten.',
+                ctaLabel: 'Notificatie maken',
+                ctaHref: 'admin.html',
+                accent: '#ff1f1f'
+            };
+
+            const defaultAdminTags = ['productiehuis', 'TV', 'multimedia', 'internationaal', 'muziek'];
+
+            const readStoredJson = (key, fallback) => {
+                try {
+                    const raw = localStorage.getItem(key);
+                    return raw ? JSON.parse(raw) : fallback;
+                } catch (error) {
+                    return fallback;
+                }
+            };
+
             const notifications = [
                 {
                     id: 1,
@@ -175,6 +211,17 @@
                 customTags: ['Homepagina']
             };
 
+            const storedBanner = { ...defaultBanner, ...readStoredJson(storageKeys.banner, {}) };
+            const storedTags = Array.from(new Set([
+                ...defaultAdminTags,
+                ...readStoredJson(storageKeys.tags, defaultAdminTags)
+            ]));
+
+            const banner = document.getElementById('homeBanner');
+            const bannerEyebrow = document.getElementById('homeBannerEyebrow');
+            const bannerTitle = document.getElementById('home-banner-title');
+            const bannerText = document.getElementById('homeBannerText');
+            const bannerEditButton = document.querySelector('.home-banner-edit-button');
             const track = document.getElementById('notificationTrack');
             const overlay = document.getElementById('notificationOverlay');
             const createOverlay = document.getElementById('notificationCreateOverlay');
@@ -189,7 +236,6 @@
             const tagAddButton = document.getElementById('notificationTagAddButton');
             const customTagsPreview = document.getElementById('notificationCreatedTags');
             const selectedTagsPreview = document.getElementById('notificationSelectedTags');
-            const interestCheckboxes = Array.from(document.querySelectorAll('.notification-interest-checkbox'));
             const nextButton = document.getElementById('carouselNext');
             const prevButton = document.getElementById('carouselPrev');
             const createButton = document.getElementById('createNotificationButton');
@@ -212,17 +258,39 @@
                 </div>
             `).join('');
 
+            const renderInterestTags = () => {
+                interestList.innerHTML = storedTags.map((tag) => `
+                    <label class="notification-checkbox-item">
+                        <input class="notification-interest-checkbox" type="checkbox" value="${escapeHtml(tag)}">
+                        <span>${escapeHtml(tag)}</span>
+                    </label>
+                `).join('');
+            };
+
             const getDraftTags = () => Array.from(new Set([
                 ...createDraft.selectedInterests,
                 ...createDraft.customTags.filter((tag) => tag.trim().length > 0)
             ]));
 
             const renderCustomTags = () => {
+                if (!customTagsPreview) {
+                    return;
+                }
+
                 const tags = createDraft.customTags.filter((tag) => tag.trim().length > 0);
-                customTagsPreview.innerHTML = tags.length ? renderTags(tags) : '<p class="notification-form-empty">Nog geen extra tags toegevoegd.</p>';
+                customTagsPreview.innerHTML = tags.length ? tags.map((tag, index) => `
+                    <button class="notification-tag-chip" type="button" data-remove-custom-tag="${index}">
+                        <span>${escapeHtml(tag)}</span>
+                        <span class="notification-tag-chip-remove" aria-hidden="true">×</span>
+                    </button>
+                `).join('') : '<p class="notification-form-empty">Nog geen extra tags toegevoegd.</p>';
             };
 
             const renderSelectedTags = () => {
+                if (!selectedTagsPreview) {
+                    return;
+                }
+
                 const tags = Array.from(createDraft.selectedInterests);
                 selectedTagsPreview.innerHTML = tags.length ? renderTags(tags) : '<p class="notification-form-empty">Nog geen tags geselecteerd.</p>';
             };
@@ -232,9 +300,20 @@
                 renderSelectedTags();
             };
 
+            const syncBanner = () => {
+                bannerEyebrow.textContent = storedBanner.eyebrow;
+                bannerTitle.textContent = storedBanner.title;
+                bannerText.textContent = storedBanner.text;
+                createButton.textContent = storedBanner.ctaLabel;
+                banner.style.background = `linear-gradient(135deg, #111111 0%, #2a2a2a 52%, ${storedBanner.accent} 100%)`;
+                if (bannerEditButton) {
+                    bannerEditButton.href = 'admin.html';
+                }
+            };
+
             const syncSelectedInterests = () => {
                 createDraft.selectedInterests = new Set(
-                    interestCheckboxes
+                    Array.from(document.querySelectorAll('.notification-interest-checkbox'))
                         .filter((checkbox) => checkbox.checked)
                         .map((checkbox) => checkbox.value)
                 );
@@ -309,9 +388,13 @@
                 autoplayTimer = window.setInterval(goToNext, 4500);
             };
 
+            renderInterestTags();
+            syncBanner();
             renderNotifications();
             updateActiveCard();
             restartAutoplay();
+            syncSelectedInterests();
+            renderDraftViews();
 
             track.addEventListener('click', (event) => {
                 const card = event.target.closest('.notification-card');
@@ -365,6 +448,17 @@
                 syncSelectedInterests();
             });
 
+            customTagsPreview.addEventListener('click', (event) => {
+                const removeButton = event.target.closest('[data-remove-custom-tag]');
+                if (!removeButton) {
+                    return;
+                }
+
+                const index = Number(removeButton.getAttribute('data-remove-custom-tag'));
+                createDraft.customTags.splice(index, 1);
+                renderCustomTags();
+            });
+
             tagAddButton.addEventListener('click', () => {
                 const value = tagInput.value.trim();
                 if (!value || createDraft.customTags.includes(value)) {
@@ -373,7 +467,7 @@
 
                 createDraft.customTags.push(value);
                 tagInput.value = '';
-                renderDraftViews();
+                renderCustomTags();
             });
 
             tagInput.addEventListener('keydown', (event) => {
@@ -390,10 +484,10 @@
                 const tags = getDraftTags();
                 const newNotification = {
                     id: Date.now(),
-                    tag: tags[0] || 'Nieuwe notification',
+                    tag: tags[0] || 'Nieuwe notificatie',
                     tags,
                     title: createDraft.title,
-                    meta: 'Zojuist toegevoegd via Create notification',
+                    meta: 'Zojuist toegevoegd via Notificatie maken',
                     text: createDraft.text,
                     accent: '#ff8a00'
                 };
@@ -421,9 +515,6 @@
 
             titleInput.addEventListener('input', syncDraftFromInputs);
             textInput.addEventListener('input', syncDraftFromInputs);
-
-            syncSelectedInterests();
-            renderDraftViews();
 
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape') {

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AED Studios - Pagina aanmaken</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <script src="./components/bottomnavigation.js"></script>
+</head>
+<body>
+    <main class="admin-page">
+        <section class="admin-hero">
+            <p class="admin-eyebrow">AED Admin</p>
+            <h1 class="admin-title">Pagina aanmaken</h1>
+            <p class="admin-intro">Bewerk de AED banner, pas tags aan en sla de instellingen op voor de homepagina.</p>
+        </section>
+
+        <section class="admin-card admin-preview-card">
+            <div class="home-banner admin-banner-preview" id="adminBannerPreview">
+                <p class="home-eyebrow" id="adminBannerEyebrow">AED Studios</p>
+                <h2 id="adminBannerTitle">Visuele communicatie voor bedrijven en theater</h2>
+                <p class="home-banner-text" id="adminBannerText">Plaats een banner of boodschap op de homepagina om bedrijven extra in de picture te zetten of een theater voorstelling te promoten.</p>
+                <div class="home-banner-actions">
+                    <span class="btn home-create-button" id="adminBannerCta">Notificatie maken</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="admin-card">
+            <h2>Bannerdetails</h2>
+            <div class="admin-form-grid">
+                <label class="admin-field">
+                    <span>Eyebrow</span>
+                    <input id="adminBannerEyebrowInput" type="text" value="AED Studios">
+                </label>
+                <label class="admin-field">
+                    <span>Titel</span>
+                    <input id="adminBannerTitleInput" type="text" value="Visuele communicatie voor bedrijven en theater">
+                </label>
+                <label class="admin-field admin-field-wide">
+                    <span>Tekst</span>
+                    <textarea id="adminBannerTextInput" rows="4">Plaats een banner of boodschap op de homepagina om bedrijven extra in de picture te zetten of een theater voorstelling te promoten.</textarea>
+                </label>
+                <label class="admin-field">
+                    <span>Knoplabel</span>
+                    <input id="adminBannerCtaInput" type="text" value="Notificatie maken">
+                </label>
+                <label class="admin-field">
+                    <span>Knoplink</span>
+                    <input id="adminBannerHrefInput" type="text" value="admin.html">
+                </label>
+                <label class="admin-field">
+                    <span>Accentkleur</span>
+                    <input id="adminBannerAccentInput" type="color" value="#ff1f1f">
+                </label>
+            </div>
+        </section>
+
+        <section class="admin-card">
+            <div class="admin-card-header">
+                <h2>Tags beheren</h2>
+                <span class="account-status-pill">Home + notificaties</span>
+            </div>
+            <p class="account-card-text">De tags hieronder verschijnen in de homepagina en in de notificatie-maker.</p>
+            <div class="notification-create-tag-row">
+                <input class="notification-form-input" id="adminTagInput" type="text" placeholder="Nieuwe tag toevoegen">
+                <button class="btn notification-tag-add-button" id="adminTagAddButton" type="button">Toevoegen</button>
+            </div>
+            <div class="admin-tag-list" id="adminTagList"></div>
+        </section>
+
+        <section class="admin-card admin-actions-card">
+            <button class="btn primary" id="adminSaveButton" type="button">Opslaan</button>
+            <a class="btn" href="index.html">Terug naar home</a>
+        </section>
+    </main>
+
+    <bottom-navigation></bottom-navigation>
+
+    <script>
+        (() => {
+            const storageKeys = {
+                banner: 'aed_home_banner_config',
+                tags: 'aed_admin_tags'
+            };
+
+            const defaultBanner = {
+                eyebrow: 'AED Studios',
+                title: 'Visuele communicatie voor bedrijven en theater',
+                text: 'Plaats een banner of boodschap op de homepagina om bedrijven extra in de picture te zetten of een theater voorstelling te promoten.',
+                ctaLabel: 'Notificatie maken',
+                ctaHref: 'admin.html',
+                accent: '#ff1f1f'
+            };
+
+            const defaultTags = ['productiehuis', 'TV', 'multimedia', 'internationaal', 'muziek'];
+
+            const readStoredJson = (key, fallback) => {
+                try {
+                    const raw = localStorage.getItem(key);
+                    return raw ? JSON.parse(raw) : fallback;
+                } catch (error) {
+                    return fallback;
+                }
+            };
+
+            const saveStoredJson = (key, value) => {
+                localStorage.setItem(key, JSON.stringify(value));
+            };
+
+            const bannerPreview = document.getElementById('adminBannerPreview');
+            const bannerEyebrow = document.getElementById('adminBannerEyebrow');
+            const bannerTitle = document.getElementById('adminBannerTitle');
+            const bannerText = document.getElementById('adminBannerText');
+            const bannerCta = document.getElementById('adminBannerCta');
+            const eyebrowInput = document.getElementById('adminBannerEyebrowInput');
+            const titleInput = document.getElementById('adminBannerTitleInput');
+            const textInput = document.getElementById('adminBannerTextInput');
+            const ctaInput = document.getElementById('adminBannerCtaInput');
+            const hrefInput = document.getElementById('adminBannerHrefInput');
+            const accentInput = document.getElementById('adminBannerAccentInput');
+            const tagInput = document.getElementById('adminTagInput');
+            const tagAddButton = document.getElementById('adminTagAddButton');
+            const tagList = document.getElementById('adminTagList');
+            const saveButton = document.getElementById('adminSaveButton');
+
+            const state = {
+                banner: { ...defaultBanner, ...readStoredJson(storageKeys.banner, {}) },
+                tags: Array.from(new Set([
+                    ...defaultTags,
+                    ...readStoredJson(storageKeys.tags, defaultTags)
+                ]))
+            };
+
+            const escapeHtml = (value) => String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+
+            const syncPreview = () => {
+                bannerEyebrow.textContent = state.banner.eyebrow;
+                bannerTitle.textContent = state.banner.title;
+                bannerText.textContent = state.banner.text;
+                bannerCta.textContent = state.banner.ctaLabel;
+                bannerPreview.style.background = `linear-gradient(135deg, #111111 0%, #2a2a2a 52%, ${state.banner.accent} 100%)`;
+            };
+
+            const renderTags = () => {
+                tagList.innerHTML = state.tags.length ? state.tags.map((tag, index) => `
+                    <button class="notification-tag-chip" type="button" data-remove-tag="${index}">
+                        <span>${escapeHtml(tag)}</span>
+                        <span class="notification-tag-chip-remove" aria-hidden="true">×</span>
+                    </button>
+                `).join('') : '<p class="notification-form-empty">Nog geen tags toegevoegd.</p>';
+            };
+
+            const syncInputs = () => {
+                state.banner.eyebrow = eyebrowInput.value.trim() || defaultBanner.eyebrow;
+                state.banner.title = titleInput.value.trim() || defaultBanner.title;
+                state.banner.text = textInput.value.trim() || defaultBanner.text;
+                state.banner.ctaLabel = ctaInput.value.trim() || defaultBanner.ctaLabel;
+                state.banner.ctaHref = hrefInput.value.trim() || defaultBanner.ctaHref;
+                state.banner.accent = accentInput.value || defaultBanner.accent;
+                syncPreview();
+            };
+
+            const persist = () => {
+                syncInputs();
+                saveStoredJson(storageKeys.banner, state.banner);
+                saveStoredJson(storageKeys.tags, state.tags);
+            };
+
+            tagAddButton.addEventListener('click', () => {
+                const value = tagInput.value.trim();
+                if (!value || state.tags.includes(value)) {
+                    return;
+                }
+
+                state.tags.push(value);
+                tagInput.value = '';
+                renderTags();
+            });
+
+            tagList.addEventListener('click', (event) => {
+                const removeButton = event.target.closest('[data-remove-tag]');
+                if (!removeButton) {
+                    return;
+                }
+
+                const index = Number(removeButton.getAttribute('data-remove-tag'));
+                state.tags.splice(index, 1);
+                renderTags();
+            });
+
+            [eyebrowInput, titleInput, textInput, ctaInput, hrefInput, accentInput].forEach((input) => {
+                input.addEventListener('input', syncInputs);
+            });
+
+            saveButton.addEventListener('click', persist);
+
+            syncPreview();
+            renderTags();
+        })();
+    </script>
+</body>
+</html>
