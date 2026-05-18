@@ -12,15 +12,229 @@
     <script src="./components/bottomnavigation.js"></script>
 </head>
 <body>
-    
-    <!-- 
-        Banner
-        Create notification
-        Carousel met notificaties die autmatisch doorgaat
-        Button met link naar map.html
-    -->
+    <main class="home-page">
+        <section class="home-banner" aria-labelledby="home-banner-title">
+            <p class="home-eyebrow">AED Studios</p>
+            <h1 id="home-banner-title">Visuele communicatie voor bedrijven en theater</h1>
+            <p class="home-banner-text">
+                Plaats een banner of boodschap op de homepagina om bedrijven extra in de picture te zetten of een theater voorstelling te promoten.
+            </p>
+            <div class="home-banner-actions">
+                <button class="btn home-create-button" id="createNotificationButton" type="button">Create notification</button>
+            </div>
+        </section>
+
+        <section class="home-section" aria-labelledby="notifications-title">
+            <div class="home-section-header">
+                <h2 id="notifications-title">Notificaties</h2>
+                <p>Auto-rotating carousel met klikbare notificaties.</p>
+            </div>
+
+            <div class="notification-carousel" aria-live="polite">
+                <button class="carousel-control carousel-control-prev" id="carouselPrev" type="button" aria-label="Vorige notificatie">‹</button>
+                <div class="notification-carousel-frame">
+                    <div class="notification-track" id="notificationTrack"></div>
+                </div>
+                <button class="carousel-control carousel-control-next" id="carouselNext" type="button" aria-label="Volgende notificatie">›</button>
+            </div>
+        </section>
+
+        <div class="home-map-cta">
+            <a class="btn home-map-button" href="map.html">Open map</a>
+        </div>
+    </main>
+
+    <div class="notification-overlay" id="notificationOverlay" aria-hidden="true">
+        <div class="notification-overlay-backdrop" data-close-overlay></div>
+        <section class="notification-overlay-panel" role="dialog" aria-modal="true" aria-labelledby="notificationOverlayTitle">
+            <button class="overlay-close" type="button" aria-label="Sluit notificatiedetails" data-close-overlay>×</button>
+            <p class="notification-overlay-label" id="notificationOverlayTag"></p>
+            <h2 id="notificationOverlayTitle"></h2>
+            <p class="notification-overlay-meta" id="notificationOverlayMeta"></p>
+            <p class="notification-overlay-text" id="notificationOverlayText"></p>
+        </section>
+    </div>
 
     <bottom-navigation></bottom-navigation>
+
+    <script>
+        (() => {
+            const notifications = [
+                {
+                    id: 1,
+                    tag: 'Bedrijf in de picture',
+                    title: 'Nieuw bedrijf in de spotlight',
+                    meta: 'Vandaag · AED Studios partnerupdate',
+                    text: 'Geef partners een opvallende plek op de homepagina met een visuele boodschap die bezoekers meteen zien.',
+                    accent: '#ff1f1f'
+                },
+                {
+                    id: 2,
+                    tag: 'Theater',
+                    title: 'Voorstelling van de week',
+                    meta: 'Morgen · Spotlight op het podium',
+                    text: 'Promoot een theater voorstelling met een kaart en extra details voor snelle doorklik en aandacht.',
+                    accent: '#1f6cff'
+                },
+                {
+                    id: 3,
+                    tag: 'Kennisgeving',
+                    title: 'Nieuwe ruimte beschikbaar',
+                    meta: 'Deze week · Evenementen en boekingen',
+                    text: 'Gebruik notificaties om nieuwe ruimtes, events of tijdelijke campagnes snel onder de aandacht te brengen.',
+                    accent: '#2b8a3e'
+                }
+            ];
+
+            const track = document.getElementById('notificationTrack');
+            const overlay = document.getElementById('notificationOverlay');
+            const overlayTag = document.getElementById('notificationOverlayTag');
+            const overlayTitle = document.getElementById('notificationOverlayTitle');
+            const overlayMeta = document.getElementById('notificationOverlayMeta');
+            const overlayText = document.getElementById('notificationOverlayText');
+            const nextButton = document.getElementById('carouselNext');
+            const prevButton = document.getElementById('carouselPrev');
+            const createButton = document.getElementById('createNotificationButton');
+
+            let activeIndex = 0;
+            let autoplayTimer = null;
+
+            const escapeHtml = (value) => String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+
+            const renderNotifications = () => {
+                track.innerHTML = notifications.map((notification, index) => `
+                    <article class="notification-card${index === activeIndex ? ' is-active' : ''}" data-index="${index}" tabindex="0" role="button" aria-label="Open notificatie: ${notification.title}">
+                        <span class="notification-card-accent" style="background:${notification.accent}"></span>
+                        <div class="notification-card-body">
+                            <p class="notification-card-tag">${escapeHtml(notification.tag)}</p>
+                            <h3>${escapeHtml(notification.title)}</h3>
+                            <p>${escapeHtml(notification.meta)}</p>
+                        </div>
+                    </article>
+                `).join('');
+            };
+
+            const updateActiveCard = () => {
+                document.querySelectorAll('.notification-card').forEach((card, index) => {
+                    card.classList.toggle('is-active', index === activeIndex);
+                });
+                track.style.transform = `translateX(-${activeIndex * 100}%)`;
+            };
+
+            const openOverlay = (notification) => {
+                overlayTag.textContent = notification.tag;
+                overlayTitle.textContent = notification.title;
+                overlayMeta.textContent = notification.meta;
+                overlayText.textContent = notification.text;
+                overlay.classList.add('is-open');
+                overlay.setAttribute('aria-hidden', 'false');
+            };
+
+            const closeOverlay = () => {
+                overlay.classList.remove('is-open');
+                overlay.setAttribute('aria-hidden', 'true');
+            };
+
+            const goToNext = () => {
+                activeIndex = (activeIndex + 1) % notifications.length;
+                updateActiveCard();
+            };
+
+            const goToPrev = () => {
+                activeIndex = (activeIndex - 1 + notifications.length) % notifications.length;
+                updateActiveCard();
+            };
+
+            const restartAutoplay = () => {
+                window.clearInterval(autoplayTimer);
+                autoplayTimer = window.setInterval(goToNext, 4500);
+            };
+
+            renderNotifications();
+            updateActiveCard();
+            restartAutoplay();
+
+            track.addEventListener('click', (event) => {
+                const card = event.target.closest('.notification-card');
+                if (!card) {
+                    return;
+                }
+
+                activeIndex = Number(card.dataset.index);
+                updateActiveCard();
+                openOverlay(notifications[activeIndex]);
+                restartAutoplay();
+            });
+
+            track.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') {
+                    return;
+                }
+
+                const card = event.target.closest('.notification-card');
+                if (!card) {
+                    return;
+                }
+
+                event.preventDefault();
+                activeIndex = Number(card.dataset.index);
+                updateActiveCard();
+                openOverlay(notifications[activeIndex]);
+                restartAutoplay();
+            });
+
+            nextButton.addEventListener('click', () => {
+                goToNext();
+                restartAutoplay();
+            });
+
+            prevButton.addEventListener('click', () => {
+                goToPrev();
+                restartAutoplay();
+            });
+
+            createButton.addEventListener('click', () => {
+                const title = window.prompt('Titel van de notificatie:', 'Nieuwe notificatie');
+                if (!title) {
+                    return;
+                }
+
+                const text = window.prompt('Beschrijving van de notificatie:', 'Voeg hier de boodschap toe die in de overlay wordt getoond.') || 'Voeg hier de boodschap toe die in de overlay wordt getoond.';
+                const newNotification = {
+                    id: Date.now(),
+                    tag: 'Nieuwe notification',
+                    title,
+                    meta: 'Zojuist toegevoegd via Create notification',
+                    text,
+                    accent: '#ff8a00'
+                };
+
+                notifications.unshift(newNotification);
+                activeIndex = 0;
+                renderNotifications();
+                updateActiveCard();
+                openOverlay(newNotification);
+                restartAutoplay();
+            });
+
+            overlay.addEventListener('click', (event) => {
+                if (event.target.matches('[data-close-overlay]')) {
+                    closeOverlay();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeOverlay();
+                }
+            });
+        })();
+    </script>
   
 </body>
 </html>
