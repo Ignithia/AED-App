@@ -71,6 +71,21 @@
             <div class="admin-tag-list" id="adminTagList"></div>
         </section>
 
+        <section class="admin-card">
+            <div class="admin-card-header">
+                <h2>Bedrijven beheren</h2>
+                <span class="account-status-pill">Bedrijvenlijst</span>
+            </div>
+            <p class="account-card-text">Voeg hier bedrijven toe die zichtbaar zijn in de bedrijvenlijst.</p>
+            <div class="notification-create-tag-row">
+                <input class="notification-form-input" id="adminCompanyNameInput" type="text" placeholder="Bedrijfsnaam">
+                <input class="notification-form-input" id="adminCompanyLogoInput" type="text" placeholder="Logo URL (optioneel)">
+                <input class="notification-form-input" id="adminCompanyHrefInput" type="text" placeholder="Link naar bedrijfspagina (optioneel)">
+                <button class="btn notification-tag-add-button" id="adminCompanyAddButton" type="button">Bedrijf toevoegen</button>
+            </div>
+            <div class="admin-company-list" id="adminCompanyList"></div>
+        </section>
+
         <section class="admin-card admin-actions-card">
             <button class="btn primary" id="adminSaveButton" type="button">Opslaan</button>
             <a class="btn" href="index.html">Terug naar home</a>
@@ -134,6 +149,10 @@
                 ]))
             };
 
+            // companies management
+            const companiesStorageKey = 'aed_admin_companies';
+            state.companies = readStoredJson(companiesStorageKey, []);
+
             const escapeHtml = (value) => String(value)
                 .replaceAll('&', '&amp;')
                 .replaceAll('<', '&lt;')
@@ -158,6 +177,29 @@
                 `).join('') : '<p class="notification-form-empty">Nog geen tags toegevoegd.</p>';
             };
 
+            const companyNameInput = document.getElementById('adminCompanyNameInput');
+            const companyLogoInput = document.getElementById('adminCompanyLogoInput');
+            const companyHrefInput = document.getElementById('adminCompanyHrefInput');
+            const companyAddButton = document.getElementById('adminCompanyAddButton');
+            const companyList = document.getElementById('adminCompanyList');
+
+            const renderCompanies = () => {
+                companyList.innerHTML = state.companies.length ? state.companies.map((company, index) => `
+                    <div class="company-card" data-company-index="${index}">
+                        <div class="company-card-left">
+                            <img src="${escapeHtml(company.logo || './images/logo/woestijnvis-logo.png')}" alt="${escapeHtml(company.name)}" class="company-list-img">
+                        </div>
+                        <div class="company-card-body">
+                            <h3>${escapeHtml(company.name)}</h3>
+                            ${company.href ? `<a href="${escapeHtml(company.href)}">Bekijk</a>` : ''}
+                        </div>
+                        <div class="company-card-actions">
+                            <button class="btn" data-remove-company="${index}">Verwijderen</button>
+                        </div>
+                    </div>
+                `).join('') : '<p class="notification-form-empty">Nog geen bedrijven toegevoegd.</p>';
+            };
+
             const syncInputs = () => {
                 state.banner.eyebrow = eyebrowInput.value.trim() || defaultBanner.eyebrow;
                 state.banner.title = titleInput.value.trim() || defaultBanner.title;
@@ -172,6 +214,7 @@
                 syncInputs();
                 saveStoredJson(storageKeys.banner, state.banner);
                 saveStoredJson(storageKeys.tags, state.tags);
+                saveStoredJson(companiesStorageKey, state.companies);
             };
 
             tagAddButton.addEventListener('click', () => {
@@ -185,6 +228,19 @@
                 renderTags();
             });
 
+            companyAddButton.addEventListener('click', () => {
+                const name = companyNameInput.value.trim();
+                const logo = companyLogoInput.value.trim();
+                const href = companyHrefInput.value.trim();
+                if (!name) return;
+
+                state.companies.push({ name, logo, href });
+                companyNameInput.value = '';
+                companyLogoInput.value = '';
+                companyHrefInput.value = '';
+                renderCompanies();
+            });
+
             tagList.addEventListener('click', (event) => {
                 const removeButton = event.target.closest('[data-remove-tag]');
                 if (!removeButton) {
@@ -196,6 +252,14 @@
                 renderTags();
             });
 
+            companyList.addEventListener('click', (event) => {
+                const removeButton = event.target.closest('[data-remove-company]');
+                if (!removeButton) return;
+                const index = Number(removeButton.getAttribute('data-remove-company'));
+                state.companies.splice(index, 1);
+                renderCompanies();
+            });
+
             [eyebrowInput, titleInput, textInput, ctaInput, hrefInput, accentInput].forEach((input) => {
                 input.addEventListener('input', syncInputs);
             });
@@ -204,6 +268,7 @@
 
             syncPreview();
             renderTags();
+            renderCompanies();
         })();
     </script>
 </body>

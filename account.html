@@ -14,7 +14,9 @@
         <section class="account-hero">
             <p class="account-eyebrow">AED Studios</p>
             <h1 class="account-title">Account</h1>
-            <p class="account-intro">Beheer je toegang, wifi-status en accountinstellingen vanaf één scherm.</p>
+            <div class="account-hero-actions">
+                <button class="btn primary" id="accountLogoutButtonTop" type="button">Uitloggen</button>
+            </div>
         </section>
 
         <section class="account-card account-login-card" id="accountLoginCard">
@@ -78,16 +80,7 @@
             </div>
         </section>
 
-        <section class="account-card">
-            <div class="account-section-header">
-                <h2>Tags</h2>
-                <span class="account-status-pill">Beheer</span>
-            </div>
-            <p class="account-card-text">Admins passen tags en banner-inhoud aan via de pagina aanmaken.</p>
-            <div class="account-actions-row">
-                <a class="btn" href="admin.html">Tags aanpassen</a>
-            </div>
-        </section>
+        
     </main>
 
     <bottom-navigation></bottom-navigation>
@@ -110,6 +103,7 @@
             const accountLoginRole = document.getElementById('accountLoginRole');
             const accountLoginButton = document.getElementById('accountLoginButton');
             const accountLogoutButton = document.getElementById('accountLogoutButton');
+            const accountLogoutButtonTop = document.getElementById('accountLogoutButtonTop');
             const accountAdminButton = document.getElementById('accountAdminButton');
             const accountCompaniesButton = document.getElementById('accountCompaniesButton');
             const accountEditButton = document.getElementById('accountEditButton');
@@ -191,10 +185,19 @@
                 render();
             });
 
-            accountLogoutButton.addEventListener('click', () => {
-                saveSession({ ...sessionDefaults });
-                render();
-            });
+            if (accountLogoutButton) {
+                accountLogoutButton.addEventListener('click', () => {
+                    saveSession({ ...sessionDefaults });
+                    render();
+                });
+            }
+
+            if (accountLogoutButtonTop) {
+                accountLogoutButtonTop.addEventListener('click', () => {
+                    saveSession({ ...sessionDefaults });
+                    render();
+                });
+            }
 
             wifiRefreshButton.addEventListener('click', updateWifiStatus);
             window.addEventListener('online', updateWifiStatus);
