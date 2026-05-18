@@ -2120,18 +2120,21 @@ h2 {
     min-height: 96px;
     display: block;
     padding: 12px 16px;
+    background: #474342;
+    border: 1px solid #5a5655;
+    border-radius: 18px;
 }
 
 .event-title-events {
     font-size: 1.45rem;
     line-height: 1.1;
-    color: #111;
+    color: #f6f5f4;
     margin-bottom: 8px;
 }
 
 .event-datetime-events {
     font-size: 1rem;
-    color: #333;
+    color: rgba(246, 245, 244, 0.78);
     margin: 4px 0;
 }
 
