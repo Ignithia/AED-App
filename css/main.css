@@ -188,7 +188,7 @@ h1 {
 .settings-title {
     text-align: center;
     font-size: 1.25rem;
-    color: #111;
+    color: #fff;
     margin: 0 0 12px;
     font-weight: 700;
 }
@@ -196,7 +196,7 @@ h1 {
 .settings-line {
     width: 100%;
     height: 2px;
-    background: #111;
+    background: #fff;
     margin-bottom: 18px;
 }
 
@@ -939,14 +939,14 @@ body {
 h2 {
     text-align: center;
     font-size: 1.2rem;
-    color: #111;
+    color: #fff;
     margin: 10px 0;
 }
 
 .line {
     width: 100%;
     height: 2px;
-    background: #111;
+    background: #fff;
     margin-bottom: 20px;
     border-radius: 0;
 }
@@ -1005,12 +1005,12 @@ h2 {
     line-height: 1.2;
     margin: 16px 0 18px;
     font-weight: 700;
-    color: #111;
+    color: #fff;
 }
 
 .profile-line {
     height: 3px;
-    background: #111;
+    background: #fff;
     width: 100%;
     margin-bottom: 24px;
 }
@@ -1023,14 +1023,14 @@ h2 {
     margin: 0 0 6px;
     font-size: 1.05rem;
     font-weight: 700;
-    color: #111;
+    color: #fff;
 }
 
 .profile-text {
     margin: 0;
     font-size: 1rem;
     line-height: 1.35;
-    color: #222;
+    color: #f5f5f5;
 }
 
 .profile-row {
@@ -1038,7 +1038,7 @@ h2 {
     gap: 10px;
     font-size: 1rem;
     line-height: 1.35;
-    color: #222;
+    color: #f5f5f5;
 }
 
 .profile-row span:first-child {
@@ -1111,13 +1111,13 @@ h2 {
     line-height: 1.2;
     margin: 0 0 10px;
     font-weight: 700;
-    color: #111;
+    color: #fff;
 }
 
 .edit-company-line {
     width: 100%;
     height: 3px;
-    background: #111;
+    background: #fff;
     margin-bottom: 14px;
 }
 
@@ -1135,7 +1135,7 @@ h2 {
 
 .edit-company-field label {
     font-size: 0.75rem;
-    color: #333;
+    color: #fff;
     margin-left: 8px;
 }
 
@@ -1239,7 +1239,7 @@ h2 {
 .edit-company-danger-line {
     width: 100%;
     height: 3px;
-    background: #111;
+    background: #fff;
     margin-bottom: 10px;
 }
 
@@ -1248,7 +1248,7 @@ h2 {
     font-size: 1.1rem;
     margin: 0 0 12px;
     font-weight: 700;
-    color: #111;
+    color: #fff;
 }
 
 .edit-company-delete {
@@ -1285,13 +1285,13 @@ h2 {
     line-height: 1.2;
     margin: 8px 0 12px;
     font-weight: 700;
-    color: #111;
+    color: #fff;
 }
 
 .company-detail-line {
     width: 92%;
     height: 2px;
-    background: #111;
+    background: #fff;
     margin: 6px auto 18px;
 }
 
@@ -1310,7 +1310,7 @@ h2 {
     gap: 10px;
     font-size: 0.98rem;
     line-height: 1.35;
-    color: #222;
+    color: #f5f5f5;
 }
 
 .company-detail-row span:first-child {
@@ -1330,7 +1330,7 @@ h2 {
     margin: 0;
     font-size: 1rem;
     line-height: 1.35;
-    color: #222;
+    color: #f5f5f5;
 }
 
 .company-detail-tags-grid {
@@ -1513,13 +1513,13 @@ h2 {
     line-height: 1.2;
     margin: 0 0 10px;
     font-weight: 700;
-    color: #111;
+    color: #fff;
 }
 
 .coffee-break-page-line {
     width: 100%;
     height: 3px;
-    background: #111;
+    background: #fff;
     margin-bottom: 12px;
 }
 
@@ -1536,12 +1536,12 @@ h2 {
 
 .coffee-break-label {
     font-size: 1rem;
-    color: #333;
+    color: #fff;
 }
 
 .coffee-break-helper {
     font-size: 0.92rem;
-    color: #8d8d8d;
+    color: #a8a8a8;
 }
 
 .coffee-break-select {
@@ -1618,7 +1618,7 @@ h2 {
     text-align: center;
     font-size: 1.2rem;
     font-weight: 700;
-    color: #111;
+    color: #fff;
 }
 
 .make-event-form {
@@ -1637,7 +1637,7 @@ h2 {
 .make-event-field label,
 .make-event-time-group label {
     font-size: 0.75rem;
-    color: #333;
+    color: #fff;
     margin-left: 8px;
 }
 
@@ -1769,7 +1769,7 @@ h2 {
     margin: 0;
     font-size: 1.2rem;
     font-weight: 700;
-    color: #2b2b2b;
+    color: #111;
 }
 
 .event-datetime {
@@ -1821,7 +1821,7 @@ h2 {
 .event-datetime-upcoming {
     margin-top: 8px;
     font-size: 1rem;
-    color: #111;
+    color: #333;
 }
 
 .event-choice-row {
@@ -1874,7 +1874,7 @@ h2 {
 .detail-content {
     padding: 0 20px;
     margin-bottom: 90px;
-    color: #2b2b2b;
+    color: #f5f5f5;
 }
 
 .detail-title {
@@ -1882,18 +1882,21 @@ h2 {
     font-size: 1.35rem;
     margin: 10px 20px 0;
     font-weight: 700;
+    color: #fff;
 }
 
 .detail-section-title {
     font-size: 1.05rem;
     font-weight: 700;
     margin: 24px 0 4px 0;
+    color: #fff;
 }
 
 .detail-text {
     margin: 0;
     font-size: 1rem;
     line-height: 1.3;
+    color: #f5f5f5;
 }
 
 .detail-row {
@@ -1902,6 +1905,7 @@ h2 {
     margin: 0;
     font-size: 1rem;
     line-height: 1.3;
+    color: #f5f5f5;
 }
 
 .detail-row span:first-child {
@@ -1941,7 +1945,7 @@ h2 {
 .appointment-detail-line {
     width: calc(100% - 40px);
     height: 3px;
-    background: #111;
+    background: #fff;
     margin: 18px 20px 0;
 }
 
@@ -1968,7 +1972,7 @@ h2 {
 
 .detail-image-divider {
     height: 3px;
-    background: #111;
+    background: #fff;
     margin: 8px 0 26px;
 }
 
@@ -2005,7 +2009,7 @@ h2 {
 
 .event-datetime-events {
     font-size: 1rem;
-    color: #111;
+    color: #333;
     margin: 4px 0;
 }
 
@@ -2334,6 +2338,7 @@ select:focus {
     text-align: left;
     font-size: clamp(2rem, 4vw, 2.6rem);
     line-height: 1.05;
+    color: #fff;
 }
 
 .account-intro,
