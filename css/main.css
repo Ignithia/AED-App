@@ -291,6 +291,7 @@ body {
 .home-banner {
     position: relative;
     overflow: hidden;
+    margin-top: 32px;
     padding: 24px 20px;
     border-radius: 28px;
     background: linear-gradient(135deg, #111111 0%, #2a2a2a 52%, #ff1f1f 100%);
