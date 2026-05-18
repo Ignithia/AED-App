@@ -399,6 +399,83 @@ body {
     border-radius: 250px;
 }
 
+/* Filter bar styling for companies page */
+.filter-bar {
+    margin: 16px 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-bar #tagInput {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1.5px solid #b8b3c3;
+    background: #fff;
+    color: #111;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.filter-bar #tagInput::placeholder {
+    color: #666;
+}
+
+.filter-bar #clearFilter {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: none;
+    background: var(--primary-app);
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.filter-bar #clearFilter:hover {
+    opacity: 0.95;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
+/* Custom dropdown for tag suggestions */
+.tag-select { position: relative; flex: 1; }
+.tag-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #d0cfd6;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(15, 15, 15, 0.12);
+    max-height: 200px;
+    overflow: auto;
+    z-index: 50;
+    display: none;
+    padding: 6px 6px;
+    box-sizing: border-box;
+}
+.tag-dropdown li {
+    list-style: none;
+    padding: 10px 12px;
+    margin: 4px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #111;
+}
+.tag-dropdown li:hover,
+.tag-dropdown li:focus {
+    background: #f2f0f6;
+    outline: none;
+}
+
 .home-map-button-icon {
     width: 1.1em;
     height: 1.1em;

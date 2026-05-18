@@ -23,6 +23,15 @@
     <h2>Beschikbare evenementen</h2>
     <div class="line"></div>
 
+    <div class="filter-bar">
+        <label for="tagInput" class="visually-hidden">Zoek op tag</label>
+        <div class="tag-select">
+            <input id="tagInput" autocomplete="off" placeholder="Zoek op tag (bijv. productie, TV)...">
+            <ul id="tagDropdown" class="tag-dropdown" aria-hidden="true"></ul>
+        </div>
+        <button id="clearFilter" type="button">Wis</button>
+    </div>
+
     <div class="events-list events-list-events">
         <a href="event-detail.html" class="event-card-link event-card-link-events">
             <div class="event-card event-card-events">
@@ -39,6 +48,56 @@
     </div>
 
    <bottom-navigation></bottom-navigation>
+
+       <script>
+        (function(){
+            const input = document.getElementById('tagInput');
+            const clearBtn = document.getElementById('clearFilter');
+            const items = document.querySelectorAll('.company-item');
+            const dropdown = document.getElementById('tagDropdown');
+            const tags = ['productie','TV','Productiehuis','Internationaal','Muziek'];
+
+            function applyFilter(){
+                const q = (input.value || '').trim().toLowerCase();
+                if(!q){
+                    items.forEach(i=> i.closest('a').style.display = '');
+                    return;
+                }
+                items.forEach(i=>{
+                    const itemTags = (i.dataset.tags || '').toLowerCase().split(',').map(s=>s.trim());
+                    const match = itemTags.includes(q);
+                    i.closest('a').style.display = match ? '' : 'none';
+                });
+            }
+
+            function populateDropdown(filterText){
+                dropdown.innerHTML = '';
+                const f = (filterText || '').trim().toLowerCase();
+                const matched = tags.filter(t => t.toLowerCase().includes(f));
+                matched.forEach(t => {
+                    const li = document.createElement('li');
+                    li.textContent = t;
+                    li.dataset.value = t;
+                    li.tabIndex = 0;
+                    li.addEventListener('click', ()=>{
+                        input.value = t;
+                        dropdown.style.display = 'none';
+                        applyFilter();
+                    });
+                    dropdown.appendChild(li);
+                });
+                dropdown.style.display = matched.length ? 'block' : 'none';
+            }
+
+            input.addEventListener('input', function(){ populateDropdown(this.value); applyFilter(); });
+            input.addEventListener('focus', function(){ populateDropdown(this.value); });
+            clearBtn.addEventListener('click', function(){ input.value=''; applyFilter(); dropdown.style.display='none'; });
+
+            document.addEventListener('click', function(e){
+                if(!e.target.closest('.tag-select')) dropdown.style.display = 'none';
+            });
+        })();
+    </script>
 
 </body>
 </html>
