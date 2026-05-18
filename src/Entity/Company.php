@@ -14,8 +14,8 @@ final class Company
         public readonly string $bio,
         public readonly string $spokesPerson,
         public readonly bool $admin,
-    ) {
-    }
+        public readonly bool $private,
+    ) {}
 
     /**
      * @param array<string, mixed> $row
@@ -29,6 +29,7 @@ final class Company
             logo: (string) $row['logo'],
             bio: (string) $row['bio'],
             spokesPerson: (string) $row['spokes_person'],
+            private: (bool) $row['private'],
             admin: (bool) $row['admin'],
         );
     }

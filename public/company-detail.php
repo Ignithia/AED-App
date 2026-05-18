@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 use App\Database;
 use App\Repository\CompanyRepository;
-use App\Repository\EmployeeRepository;
+use App\Repository\AccountRepository;
 use App\Repository\TagRepository;
 
 require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Entity/Company.php';
-require_once __DIR__ . '/../src/Entity/Employee.php';
+require_once __DIR__ . '/../src/Entity/Account.php';
 require_once __DIR__ . '/../src/Entity/Tag.php';
 require_once __DIR__ . '/../src/Repository/AbstractRepository.php';
 require_once __DIR__ . '/../src/Repository/CompanyRepository.php';
-require_once __DIR__ . '/../src/Repository/EmployeeRepository.php';
+require_once __DIR__ . '/../src/Repository/AccountRepository.php';
 require_once __DIR__ . '/../src/Repository/TagRepository.php';
 
 /**
@@ -46,7 +46,7 @@ try {
 
     $pdo = $database->getConnection();
     $companyRepository = new CompanyRepository($pdo);
-    $employeeRepository = new EmployeeRepository($pdo);
+    $accountRepository = new AccountRepository($pdo);
     $tagRepository = new TagRepository($pdo);
 
     $company = $companyRepository->findById($companyId);
@@ -57,7 +57,7 @@ try {
         exit;
     }
 
-    $employees = $employeeRepository->findByCompanyId($companyId);
+    $accounts = $accountRepository->findByCompanyId($companyId);
     $tags = $tagRepository->findByCompanyId($companyId);
 } catch (Throwable $exception) {
     // Never expose raw database details to the browser.
@@ -70,11 +70,13 @@ try {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($company->companyName) ?></title>
 </head>
+
 <body>
     <main>
         <h1><?= e($company->companyName) ?></h1>
@@ -106,15 +108,15 @@ try {
         </section>
 
         <section>
-            <h2>Employees</h2>
-            <?php if ($employees === []) : ?>
-                <p>No employees found.</p>
+            <h2>Accounts</h2>
+            <?php if ($accounts === []) : ?>
+                <p>No accounts found.</p>
             <?php else : ?>
                 <ul>
-                    <?php foreach ($employees as $employee) : ?>
+                    <?php foreach ($accounts as $account) : ?>
                         <li>
-                            <?= e($employee->name) ?>
-                            (<?= e($employee->code) ?>)
+                            <?= e($account->name) ?>
+                            (<?= e($account->email) ?>)
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -122,4 +124,5 @@ try {
         </section>
     </main>
 </body>
+
 </html>
