@@ -6,14 +6,20 @@ namespace App\Entity;
 
 final class Event
 {
+    public readonly \DateTimeImmutable $startTime;
+    public readonly \DateTimeImmutable $endTime;
+
     public function __construct(
         public readonly int $id,
         public readonly string $eventName,
         public readonly string $eventInfo,
-        public readonly string $startTime,
-        public readonly string $endTime,
+        string $startTime,
+        string $endTime,
         public readonly int $companyId,
-    ) {}
+    ) {
+        $this->startTime = new \DateTimeImmutable($startTime);
+        $this->endTime = new \DateTimeImmutable($endTime);
+    }
 
     /**
      * @param array<string, mixed> $row

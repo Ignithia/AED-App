@@ -2,11 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Database;
-use App\Repository\CompanyRepository;
-use App\Repository\AccountRepository;
-use App\Repository\TagRepository;
-
 require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Entity/Company.php';
 require_once __DIR__ . '/../src/Entity/Account.php';
@@ -15,6 +10,13 @@ require_once __DIR__ . '/../src/Repository/AbstractRepository.php';
 require_once __DIR__ . '/../src/Repository/CompanyRepository.php';
 require_once __DIR__ . '/../src/Repository/AccountRepository.php';
 require_once __DIR__ . '/../src/Repository/TagRepository.php';
+
+use App\Database;
+use App\Repository\CompanyRepository;
+use App\Repository\AccountRepository;
+use App\Repository\TagRepository;
+
+session_start();
 
 /**
  * Escape all dynamic HTML output to prevent XSS.
@@ -35,16 +37,7 @@ if ($companyId === null || $companyId === false) {
 }
 
 try {
-    // Keep credentials out of source code; environment variables are preferred.
-    $database = new Database(
-        host: $_ENV['DB_HOST'] ?? '127.0.0.1',
-        dbName: $_ENV['DB_NAME'] ?? 'aed_db',
-        username: $_ENV['DB_USER'] ?? 'root',
-        password: $_ENV['DB_PASS'] ?? '',
-        port: (int) ($_ENV['DB_PORT'] ?? 3306),
-    );
-
-    $pdo = $database->getConnection();
+    $pdo = Database::getInstance()->getConnection();
     $companyRepository = new CompanyRepository($pdo);
     $accountRepository = new AccountRepository($pdo);
     $tagRepository = new TagRepository($pdo);
@@ -75,6 +68,9 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($company->companyName) ?></title>
+    <link rel="stylesheet" href="css/vars.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="components/bottomnavigation.js"></script>
 </head>
 
 <body>
@@ -123,6 +119,7 @@ try {
             <?php endif; ?>
         </section>
     </main>
+    <bottom-navigation></bottom-navigation>
 </body>
 
 </html>

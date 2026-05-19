@@ -20,10 +20,30 @@
   display: inline-block;
 }
 
-.btn-small {
-  padding: 0.25em 0.75em;
-  font-size: 0.85rem;
-  min-height: auto !important;
+.empty-state {
+    padding: 2em;
+    text-align: center;
+    background: var(--color-surface-variant, rgba(255, 255, 255, 0.05));
+    border-radius: 8px;
+    color: var(--color-on-surface-variant, #888);
+    font-size: 0.9rem;
+    margin: 1em 0;
+}
+
+.setting-item {
+    margin-bottom: 20px;
+}
+
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.setting-control span {
+    font-size: 0.85rem;
+    color: #888;
 }
 
 .bottom-navigation {

@@ -14,7 +14,7 @@ final class AccountRepository extends AbstractRepository
     public function findByCompanyId(int $companyId): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
+            'SELECT id, name, email, code, fk_company, role,
                     privacy_searchable, newsletter_subscribed, language, notifications_enabled
              FROM account
              WHERE fk_company = :company_id
@@ -31,7 +31,7 @@ final class AccountRepository extends AbstractRepository
     public function findByEmail(string $email): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
+            'SELECT id, name, email, code, fk_company, role,
                     privacy_searchable, newsletter_subscribed, language, notifications_enabled
              FROM account
              WHERE email = :email
@@ -50,12 +50,47 @@ final class AccountRepository extends AbstractRepository
     public function findByEmailAndCode(string $email, string $code): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
+            'SELECT id, name, email, code, fk_company, role,
                     privacy_searchable, newsletter_subscribed, language, notifications_enabled
              FROM account
              WHERE email = :email AND code = :code
              LIMIT 1',
             ['email' => $email, 'code' => $code]
+        );
+
+        $row = $statement->fetch();
+
+        return $row ? Account::fromRow($row) : null;
+    }
+
+    /**
+     * Find an account by its unique code (password)
+     */
+    public function findByCode(string $code): ?Account
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT id, name, email, code, fk_company, role,
+                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+             FROM account
+             WHERE code = :code
+             LIMIT 1',
+            ['code' => $code]
+        );
+
+        $row = $statement->fetch();
+
+        return $row ? Account::fromRow($row) : null;
+    }
+
+    public function findById(int $id): ?Account
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT id, name, email, code, fk_company, role,
+                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+             FROM account
+             WHERE id = :id
+             LIMIT 1',
+            ['id' => $id]
         );
 
         $row = $statement->fetch();
@@ -96,22 +131,6 @@ final class AccountRepository extends AbstractRepository
                 'code' => $code
             ]
         );
-    }
-
-    public function findById(int $id): ?Account
-    {
-        $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
-                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
-             FROM account
-             WHERE id = :id
-             LIMIT 1',
-            ['id' => $id]
-        );
-
-        $row = $statement->fetch();
-
-        return $row ? Account::fromRow($row) : null;
     }
 
     public function update(int $id, string $name, string $email, string $code, ?int $companyId): void
