@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AED Studios - Instellingen</title>
+
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="./components/bottomnavigation.js"></script>
+</head>
+<body>
+
+    <div class="settings-page">
+        <h2 class="settings-title">Instellingen</h2>
+        <div class="settings-line"></div>
+
+        <div class="settings-item settings-language-row">
+            <label class="settings-label" for="settings-language">Taal:</label>
+            <select id="settings-language" class="settings-select">
+                <option>Nederlands</option>
+                <option>Français</option>
+                <option>English</option>
+                <option>Deutsch</option>
+            </select>
+        </div>
+
+        <div class="settings-item settings-toggle-row">
+            <span class="settings-label">Notificaties:</span>
+            <label class="settings-switch">
+                <input type="checkbox">
+                <span class="settings-slider"></span>
+            </label>
+        </div>
+
+        <div class="settings-item settings-toggle-row">
+            <span class="settings-label">Evenement pop-ups:</span>
+            <label class="settings-switch">
+                <input type="checkbox">
+                <span class="settings-slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <bottom-navigation></bottom-navigation>
+
+</body>
+</html>
