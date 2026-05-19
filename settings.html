@@ -7,41 +7,130 @@
     <title>AED Studios - Instellingen</title>
 
     <link rel="stylesheet" href="css/main.css">
-
     <script src="./components/bottomnavigation.js"></script>
+
 </head>
-<body>
+<body> 
 
     <div class="settings-page">
-        <h2 class="settings-title">Instellingen</h2>
+        <h1 class="settings-title">Instellingen</h1>
         <div class="settings-line"></div>
 
-        <div class="settings-item settings-language-row">
-            <label class="settings-label" for="settings-language">Taal:</label>
-            <select id="settings-language" class="settings-select">
-                <option>Nederlands</option>
-                <option>Français</option>
-                <option>English</option>
-                <option>Deutsch</option>
-            </select>
+        <div class="settings-container">
+        <div class="settings-card">
+            <h3>Taal</h3>
+            <div class="settings-row">
+                <div>
+                    <select id="settings-language">
+                        <option>Nederlands</option>
+                        <option>Français</option>
+                        <option>English</option>
+                        <option>Deutsch</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <div class="settings-item settings-toggle-row">
-            <span class="settings-label">Notificaties:</span>
-            <label class="settings-switch">
-                <input type="checkbox">
-                <span class="settings-slider"></span>
-            </label>
+        <div class="settings-card">
+            <h3>Privacy</h3>
+            <div class="settings-row">
+                <div class="settings-label">Profiel zichtbaar als</div>
+                <select id="privacy-visibility">
+                    <option value="public">Openbaar</option>
+                    <option value="private">Privé</option>
+                </select>
+            </div>
         </div>
 
-        <div class="settings-item settings-toggle-row">
-            <span class="settings-label">Evenement pop-ups:</span>
-            <label class="settings-switch">
-                <input type="checkbox">
-                <span class="settings-slider"></span>
-            </label>
+        <div class="settings-card settings-profile-card">
+            <h3>Profiel</h3>
+
+            <div class="settings-profile-preview-row">
+                <img
+                    id="profile-avatar-preview"
+                    class="settings-profile-avatar"
+                    src="./images/person-pfp.png"
+                    alt="Profielfoto voorbeeld"
+                >
+
+                <label class="profile-file-button settings-profile-file-button" for="profile-avatar-input">
+                    Wijzig profielfoto
+                </label>
+                <input id="profile-avatar-input" type="file" accept="image/*">
+            </div>
+
+            <div class="settings-row settings-profile-row">
+                <label class="settings-label" for="profile-first-name">Voornaam</label>
+                <input id="profile-first-name" class="settings-text-input" type="text" value="John">
+            </div>
+
+            <div class="settings-row settings-profile-row">
+                <label class="settings-label" for="profile-last-name">Naam</label>
+                <input id="profile-last-name" class="settings-text-input" type="text" value="Doe">
+            </div>
+
+            <div class="settings-row settings-profile-row">
+                <label class="settings-label" for="profile-display-name">E-mail</label>
+                <input id="profile-display-name" class="settings-text-input" type="text" value="john.doe@example.com">
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h3>Notificaties</h3>
+            <div class="settings-row">
+                <span class="settings-label">Ontvang push-notificaties</span>
+                <input type="checkbox" id="notif-push" checked>
+            </div>
+            <div class="settings-row">
+                <span class="settings-label">E-mailmeldingen</span>
+                <input type="checkbox" id="notif-email" checked>
+            </div>
+            <div class="settings-row">
+                <span class="settings-label">Evenement pop-ups</span>
+                <input type="checkbox" id="notif-popups" checked>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h3>Media</h3>
+            <div class="settings-row">
+                <span class="settings-label">Auto play video's</span>
+                <input type="checkbox" id="autoplay-videos" checked>
+            </div>
+            <div class="settings-row">
+                <span class="settings-label">Blokkeer pop-ups</span>
+                <input type="checkbox" id="block-popups">
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h3>Audio</h3>
+            <div class="settings-row">
+                <span class="settings-label">Audio uit</span>
+                <input type="checkbox" id="audio-muted">
+            </div>
+        </div>
+
+        <div class="settings-row">
+            <div class="settings-actions">
+                <button id="save-settings" class="btn primary">Opslaan</button>
+            </div>
+        </div>
+
+        <div class="settings-card account-actions">
+            <h3>Account acties</h3>
+            <div class="settings-row">
+                <div class="small-muted">Download of verwijder je account hieronder.</div>
+                <div class="settings-actions">
+                    <button id="download-data" class="btn">Download gegevens</button>
+                    <button id="delete-account" class="btn destructive">Verwijder account</button>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
+
+    <script src="js/settings.js"></script>
 
     <bottom-navigation></bottom-navigation>
 
