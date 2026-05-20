@@ -5,15 +5,19 @@ declare(strict_types=1);
 require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Repository/AbstractRepository.php';
 require_once __DIR__ . '/../src/Repository/EventRepository.php';
+require_once __DIR__ . '/../src/Repository/PictureRepository.php';
 require_once __DIR__ . '/../src/Entity/Event.php';
+require_once __DIR__ . '/../src/Entity/Picture.php';
 
 use App\Database;
 use App\Repository\EventRepository;
+use App\Repository\PictureRepository;
 
 session_start();
 
 $db = Database::getInstance()->getConnection();
 $eventRepo = new EventRepository($db);
+$pictureRepo = new PictureRepository($db);
 
 $events = $eventRepo->findAll();
 ?>
@@ -50,10 +54,15 @@ $events = $eventRepo->findAll();
             </div>
         <?php else: ?>
             <?php foreach ($events as $event): ?>
+                <?php $firstImage = $pictureRepo->findFirstByEventId($event->id); ?>
                 <a href="event-detail.php?id=<?= $event->id ?>" style="text-decoration: none; color: inherit;">
                     <div class="event-card">
                         <div class="event-img-container">
-                            <img src="images/logo/Home.svg" alt="Logo" class="event-logo">
+                            <?php if ($firstImage): ?>
+                                <img src="<?= htmlspecialchars($firstImage->url) ?>" alt="Event Cover" class="event-logo" style="object-fit: cover;">
+                            <?php else: ?>
+                                <img src="images/logo/Home.svg" alt="Logo" class="event-logo">
+                            <?php endif; ?>
                         </div>
                         <div class="event-divider"></div>
                         <div class="event-info">

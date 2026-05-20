@@ -26,6 +26,21 @@ final class PictureRepository extends AbstractRepository
         );
     }
 
+    public function findFirstByEventId(int $eventId): ?Picture
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT *
+             FROM picture
+             WHERE fk_event = :event_id
+             LIMIT 1',
+            ['event_id' => $eventId]
+        );
+
+        $row = $statement->fetch();
+
+        return $row ? Picture::fromRow($row) : null;
+    }
+
     public function create(string $url, int $eventId): void
     {
         $this->prepareAndExecute(
