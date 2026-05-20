@@ -391,6 +391,7 @@ body {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: #fff;
+
 }
 
 .home-banner-actions .home-banner-edit-button {
@@ -404,6 +405,7 @@ body {
 .home-map-button {
   min-height: 48px;
   max-width: 200px;
+  min-width: 190px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
