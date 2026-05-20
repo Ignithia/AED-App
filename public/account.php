@@ -139,10 +139,10 @@ if (isset($_GET['logout'])) {
                 <div class="account-actions-row account-actions-stack">
                     <a class="btn" href="settings.php">Account wijzigen</a>
                     <?php if ($loggedInAccount->role === 'admin' || (isset($_SESSION['role']) && $_SESSION['role'] === 'admin')): ?>
-                        <a class="btn account-admin-button" href="admin.php">Pagina aanmaken</a>
+                        <a class="btn account-admin-button" href="admin.php">Banner aanpassen</a>
                     <?php endif; ?>
                     <?php if ($loggedInAccount->role === 'admin' || $loggedInAccount->role === 'company'): ?>
-                        <a class="btn" href="companies.php">Bedrijven beheren</a>
+                        <a class="btn account-admin-button" href="manage-companies.php">Bedrijven Beheren</a>
                     <?php endif; ?>
                     <a href="?logout=1" class="btn primary">Uitloggen</a>
                 </div>

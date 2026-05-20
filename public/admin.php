@@ -54,10 +54,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                 <button class="btn primary" type="submit" style="background: var(--primary-app); color: white; border: none; padding: 14px; border-radius: 30px; font-weight: 700; margin-top: 10px;">Opslaan</button>
             </form>
         </section>
-
-        <section class="admin-card admin-actions-card">
-            <a class="btn" href="index.php">Terug naar home</a>
-        </section>
     </main>
     <bottom-navigation></bottom-navigation>
 </body>

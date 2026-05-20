@@ -99,19 +99,20 @@ final class AccountRepository extends AbstractRepository
     }
 
     /**
-     * Create multiple empty accounts for a company
+     * Create multiple empty accounts for a company with customizable code and prefix
      */
-    public function bulkCreateForCompany(int $companyId, int $count): void
+    public function bulkCreateForCompany(int $companyId, int $count, ?string $codeOverride = null, string $namePrefix = 'Medewerker'): void
     {
         $sql = 'INSERT INTO account (name, email, code, fk_company) VALUES (:name, :email, :code, :company_id)';
         $stmt = $this->pdo->prepare($sql);
 
-        for ($i = 0; $i < $count; $i++) {
-            $uniqueCode = bin2hex(random_bytes(4)); // Generate a random 8-char code
+        for ($i = 1; $i <= $count; $i++) {
+            $uniqueId = bin2hex(random_bytes(3));
+            $loginCode = $codeOverride ?: bin2hex(random_bytes(4));
             $stmt->execute([
-                'name' => "Employee $uniqueCode",
-                'email' => "pending_$uniqueCode@example.com",
-                'code' => $uniqueCode,
+                'name' => "$namePrefix $i",
+                'email' => "pending_{$uniqueId}@aedstudios.com", // Generic internal email
+                'code' => $loginCode,
                 'company_id' => $companyId
             ]);
         }

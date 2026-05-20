@@ -91,19 +91,20 @@ final class CompanyRepository extends AbstractRepository
         );
     }
 
-    public function create(string $name, string $code, ?string $logo, ?string $bio, string $spokesPerson, bool $admin, bool $private): int
+    public function create(string $name, string $code, ?string $logo, ?string $bio, string $spokesPerson, bool $admin, bool $private, ?string $email = null): int
     {
         $this->prepareAndExecute(
-            'INSERT INTO company (company_name, code, logo, bio, `spokes person`, admin, private)
-             VALUES (:name, :code, :logo, :bio, :spokes_person, :admin, :private)',
+            'INSERT INTO company (company_name, code, logo, bio, `spokes person`, admin, private, email)
+             VALUES (:name, :code, :logo, :bio, :spokes_person, :admin, :private, :email)',
             [
                 'name' => $name,
                 'code' => $code,
                 'logo' => $logo,
                 'bio' => $bio,
                 'spokes_person' => $spokesPerson,
-                'admin' => $admin,
-                'private' => $private,
+                'admin' => $admin ? 1 : 0,
+                'private' => $private ? 1 : 0,
+                'email' => $email,
             ]
         );
 
