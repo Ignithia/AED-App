@@ -49,7 +49,6 @@ if ($showInterested) {
             <div class="home-section-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
                 <div>
                     <h2 id="notifications-title">Notificaties</h2>
-                    <p>Bekijk de laatste updates van AED Studios.</p>
                 </div>
                 <?php if (isset($_SESSION['account_id'])): ?>
                     <div class="interest-filter">
@@ -119,14 +118,14 @@ if ($showInterested) {
         <div class="home-map-cta">
             <a class="btn home-map-button" href="map.php">
                 <img class="home-map-button-icon" src="images/nav-ico/map.svg" alt="" aria-hidden="true">
-                <span>Open map</span>
+                <span>Map</span>
             </a>
         </div>
 
         <div class="home-map-cta">
             <a class="btn home-map-button" href="companies.php">
                 <img class="home-map-button-icon" src="../images/nav-ico/Grid.svg" alt="" aria-hidden="true">
-                <span>Open Bedrijvenlijst</span>
+                <span>Bedrijven</span>
             </a>
         </div>
     </main>

@@ -14,8 +14,7 @@ final class AccountRepository extends AbstractRepository
     public function findByCompanyId(int $companyId): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, role,
-                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+            'SELECT *
              FROM account
              WHERE fk_company = :company_id
              ORDER BY name ASC',
@@ -31,8 +30,7 @@ final class AccountRepository extends AbstractRepository
     public function findByEmail(string $email): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, role,
-                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+            'SELECT *
              FROM account
              WHERE email = :email
              LIMIT 1',
@@ -50,8 +48,7 @@ final class AccountRepository extends AbstractRepository
     public function findByEmailAndCode(string $email, string $code): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, role,
-                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+            'SELECT *
              FROM account
              WHERE email = :email AND code = :code
              LIMIT 1',
@@ -69,8 +66,7 @@ final class AccountRepository extends AbstractRepository
     public function findByCode(string $code): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, role,
-                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+            'SELECT *
              FROM account
              WHERE code = :code
              LIMIT 1',
@@ -85,8 +81,7 @@ final class AccountRepository extends AbstractRepository
     public function findById(int $id): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, role,
-                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+            'SELECT *
              FROM account
              WHERE id = :id
              LIMIT 1',
@@ -132,6 +127,32 @@ final class AccountRepository extends AbstractRepository
                 'code' => $code
             ]
         );
+    }
+
+    /**
+     * Get or create a guest account by email
+     */
+    public function getOrCreateGuestByEmail(string $email): Account
+    {
+        $account = $this->findByEmail($email);
+        if ($account) {
+            return $account;
+        }
+
+        $code = bin2hex(random_bytes(4));
+        $name = explode('@', $email)[0];
+
+        $this->prepareAndExecute(
+            'INSERT INTO account (name, email, code, fk_company, role) 
+             VALUES (:name, :email, :code, NULL, "guest")',
+            [
+                'name' => $name,
+                'email' => $email,
+                'code' => $code
+            ]
+        );
+
+        return $this->findByEmail($email);
     }
 
     public function update(int $id, string $name, string $email, string $code, ?int $companyId): void

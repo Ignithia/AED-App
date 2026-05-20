@@ -23,30 +23,43 @@ $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['guest_login'])) {
-        $_SESSION['role'] = 'guest';
         $email = $_POST['email'] ?? '';
-        header('Location: index.php');
-        exit;
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = "Ongeldig emailadres.";
+        } else {
+            $account = $accountRepo->getOrCreateGuestByEmail($email);
+
+            if ($account->companyId !== null) {
+                $error = "Dit emailadres is gekoppeld aan een bedrijf. Log in via je bedrijfsaccount.";
+            } else {
+                $_SESSION['account_id'] = $account->id;
+                $_SESSION['email'] = $account->email;
+                $_SESSION['role'] = 'guest';
+
+                header('Location: index.php');
+                exit;
+            }
+        }
+    } elseif (isset($_POST['company_code']) || isset($_POST['account_code'])) {
+        $companyCode = $_POST['company_code'] ?? '';
+        $accountCode = $_POST['account_code'] ?? '';
+
+        // Logic for individual account login regardless of company code
+        $account = $accountRepo->findByCode($accountCode);
+
+        if ($account) {
+            $company = $account->companyId ? $companyRepo->findById($account->companyId) : null;
+
+            $_SESSION['account_id'] = $account->id;
+            $_SESSION['company_id'] = $company ? $company->id : null;
+            $_SESSION['email'] = $account->email ?? null;
+            $_SESSION['role'] = $account->role;
+
+            header('Location: index.php');
+            exit;
+        }
+        $error = "Ongeldige accountcode.";
     }
-
-    $companyCode = $_POST['company_code'] ?? '';
-    $accountCode = $_POST['account_code'] ?? '';
-
-    // Logic for individual account login regardless of company code
-    $account = $accountRepo->findByCode($accountCode);
-
-    if ($account) {
-        $company = $account->companyId ? $companyRepo->findById($account->companyId) : null;
-
-        $_SESSION['account_id'] = $account->id;
-        $_SESSION['company_id'] = $company ? $company->id : null;
-        $_SESSION['email'] = $account->email ?? null;
-        $_SESSION['role'] = $account->role;
-
-        header('Location: index.php');
-        exit;
-    }
-    $error = "Ongeldige accountcode.";
 }
 
 $loggedInAccount = null;
@@ -136,6 +149,9 @@ if (isset($_GET['logout'])) {
                             <?php if ($loggedInCompany): ?>
                                 <span class="account-session-divider" aria-hidden="true">|</span>
                                 <span class="account-session-role"><?= htmlspecialchars($loggedInCompany->companyName) ?></span>
+                            <?php elseif ($loggedInAccount->role === 'guest'): ?>
+                                <span class="account-session-divider" aria-hidden="true">|</span>
+                                <span class="account-session-role">Bezoeker</span>
                             <?php endif; ?>
                         </div>
                         <p class="account-session-email"><?= htmlspecialchars($loggedInAccount->email) ?></p>
@@ -143,31 +159,13 @@ if (isset($_GET['logout'])) {
                 </div>
 
                 <div class="account-actions-row account-actions-stack">
-                    <a class="btn" href="settings.php">Account wijzigen</a>
+                    <a class="btn" href="settings.php">Instellingen</a>
                     <?php if ($loggedInAccount->role === 'admin' || (isset($_SESSION['role']) && $_SESSION['role'] === 'admin')): ?>
                         <a class="btn account-admin-button" href="admin.php">Banner aanpassen</a>
                     <?php endif; ?>
                     <?php if ($loggedInAccount->role === 'admin' || $loggedInAccount->role === 'company'): ?>
                         <a class="btn account-admin-button" href="manage-companies.php">Bedrijven Beheren</a>
                     <?php endif; ?>
-                    <a href="?logout=1" class="btn primary">Uitloggen</a>
-                </div>
-            </section>
-        <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'guest'): ?>
-            <section class="account-card account-session-card">
-                <div class="account-session-header">
-                    <img class="account-avatar" src="images/person-pfp.png" alt="Profielfoto">
-                    <div class="account-session-details">
-                        <p class="account-session-eyebrow">U bent momenteel ingelogd als:</p>
-                        <div class="account-session-name-row">
-                            <span class="account-session-name">Gast</span>
-                            <span class="account-session-divider" aria-hidden="true">|</span>
-                            <span class="account-session-role">Bezoeker</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="account-actions-row account-actions-stack">
-                    <a class="btn" href="settings.php">Instellingen</a>
                     <a href="?logout=1" class="btn primary">Uitloggen</a>
                 </div>
             </section>
