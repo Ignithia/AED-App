@@ -81,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body class="dark-theme">
     <h2 class="make-event-title">Evenement Plannen</h2>
+    <?php if (isset($error)): ?>
+        <p style="color: red; padding: 10px; background: rgba(255,0,0,0.1); border-radius: 10px; margin: 10px 20px;"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
     <form method="POST" class="make-event-form">
         <div class="make-event-field">
             <label>Naam</label>

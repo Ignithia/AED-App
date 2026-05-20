@@ -14,7 +14,7 @@ final class PictureRepository extends AbstractRepository
     public function findByEventId(int $eventId): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, url, fk_event
+            'SELECT *
              FROM picture
              WHERE fk_event = :event_id',
             ['event_id' => $eventId]

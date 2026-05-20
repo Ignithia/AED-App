@@ -9,7 +9,8 @@ final class Picture
     public function __construct(
         public readonly int $id,
         public readonly string $url,
-        public readonly int $eventId,
+        public readonly ?int $eventId,
+        public readonly ?int $notificationId = null,
     ) {}
 
     /**
@@ -20,7 +21,8 @@ final class Picture
         return new self(
             id: (int) $row['id'],
             url: (string) $row['url'],
-            eventId: (int) $row['fk_event'],
+            eventId: isset($row['fk_event']) ? (int) $row['fk_event'] : null,
+            notificationId: isset($row['fk_notification']) ? (int) $row['fk_notification'] : null,
         );
     }
 }
