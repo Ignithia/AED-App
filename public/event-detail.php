@@ -9,6 +9,7 @@ require_once __DIR__ . '/../src/Repository/PictureRepository.php';
 require_once __DIR__ . '/../src/Repository/TagRepository.php';
 require_once __DIR__ . '/../src/Entity/Event.php';
 require_once __DIR__ . '/../src/Entity/Tag.php';
+require_once __DIR__ . '/../src/Entity/Picture.php';
 
 use App\Database;
 use App\Repository\EventRepository;

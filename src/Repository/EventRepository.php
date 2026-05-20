@@ -14,7 +14,7 @@ final class EventRepository extends AbstractRepository
     public function findByCompanyId(int $companyId): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT e.id, e.event_name, e.event_info, e.start_time, e.end_time, e.fk_company
+            'SELECT e.*
              FROM event e
              JOIN event_participant ep ON e.id = ep.fk_event
              JOIN account a ON ep.fk_account = a.id
@@ -35,7 +35,7 @@ final class EventRepository extends AbstractRepository
     public function findAll(): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, event_name, event_info, start_time, end_time, fk_company
+            'SELECT *
              FROM event
              ORDER BY start_time ASC'
         );
@@ -52,7 +52,7 @@ final class EventRepository extends AbstractRepository
     public function findAllPublic(): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, event_name, event_info, start_time, end_time, fk_company
+            'SELECT *
              FROM event
              WHERE fk_company IS NULL
              ORDER BY start_time ASC'
@@ -76,7 +76,7 @@ final class EventRepository extends AbstractRepository
 
         $placeholders = implode(',', array_fill(0, count($tagIds), '?'));
 
-        $sql = "SELECT DISTINCT e.id, e.event_name, e.event_info, e.start_time, e.end_time, e.fk_company
+        $sql = "SELECT DISTINCT e.*
                 FROM event e
                 INNER JOIN event_tag et ON e.id = et.fk_event
                 WHERE et.fk_tag IN ($placeholders)
@@ -94,7 +94,7 @@ final class EventRepository extends AbstractRepository
     public function findById(int $id): ?Event
     {
         $statement = $this->prepareAndExecute(
-            'SELECT e.id, e.event_name, e.event_info, e.start_time, e.end_time, e.fk_company, 
+            'SELECT e.*, 
                     c.company_name, c.`spokes person` as spokes_person, c.Telefoon as company_phone
              FROM event e
              LEFT JOIN company c ON e.fk_company = c.id
