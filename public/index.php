@@ -21,7 +21,7 @@ if ($showInterested) {
     $interestStmt = $db->prepare("SELECT fk_tag FROM interest WHERE fk_account = ?");
     $interestStmt->execute([$_SESSION['account_id']]);
     $tagIds = $interestStmt->fetchAll(PDO::FETCH_COLUMN);
-    
+
     if (!empty($tagIds)) {
         $notifications = $notificationRepo->findByTags($tagIds);
     } else {
@@ -72,8 +72,8 @@ if ($showInterested) {
                             </div>
                         <?php else: ?>
                             <?php foreach ($notifications as $notification): ?>
-                                <div class="notification-card" 
-                                     onclick="showNotificationDetails('<?= addslashes(htmlspecialchars($notification->title)) ?>', '<?= addslashes(htmlspecialchars($notification->bodyText)) ?>')">
+                                <div class="notification-card"
+                                    onclick="showNotificationDetails('<?= addslashes(htmlspecialchars($notification->title)) ?>', '<?= addslashes(htmlspecialchars($notification->bodyText)) ?>')">
                                     <div class="notification-card-accent" style="background-color: var(--color-primary);"></div>
                                     <div class="notification-card-body">
                                         <h3><?= htmlspecialchars($notification->title) ?></h3>
@@ -125,7 +125,7 @@ if ($showInterested) {
 
         <div class="home-map-cta">
             <a class="btn home-map-button" href="companies.php">
-                <img class="home-map-button-icon" src="images/nav-ico/grid.svg" alt="" aria-hidden="true">
+                <img class="home-map-button-icon" src="../images/nav-ico/Grid.svg" alt="" aria-hidden="true">
                 <span>Open Bedrijvenlijst</span>
             </a>
         </div>

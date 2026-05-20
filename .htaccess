@@ -1,12 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-
-    # Redirect requests to the public directory
-    RewriteRule ^$ public/ [L]
-    RewriteRule (.*) public/$1 [L]
+    RewriteRule ^$ public/index.php [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
-
-# Security: Deny access to sensitive folders
-RedirectMatch 404 ^/src/.*$
-RedirectMatch 404 ^/\.env$
-RedirectMatch 404 ^/database\.sql$

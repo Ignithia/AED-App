@@ -65,8 +65,8 @@
   width: 30px;
   height: 30px;
   background-color: var(--primary-app);
-  mask: url("../images/nav-ico/home.svg") no-repeat center;
-  -webkit-mask: url("../images/nav-ico/home.svg") no-repeat center;
+  mask: url("../images/nav-ico/Home.svg") no-repeat center;
+  -webkit-mask: url("../images/nav-ico/Home.svg") no-repeat center;
 }
 
 .icon-map {
@@ -81,8 +81,8 @@
   width: 30px;
   height: 30px;
   background-color: var(--primary-app);
-  mask: url("../images/nav-ico/grid.svg") no-repeat center;
-  -webkit-mask: url("../images/nav-ico/grid.svg") no-repeat center;
+  mask: url("../images/nav-ico/Grid.svg") no-repeat center;
+  -webkit-mask: url("../images/nav-ico/Grid.svg") no-repeat center;
 }
 .icon-calendar {
   width: 30px;

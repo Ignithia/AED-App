@@ -55,7 +55,6 @@ try {
 } catch (Throwable $exception) {
     // Never expose raw database details to the browser.
     error_log($exception->getMessage());
-
     http_response_code(500);
     echo 'A database error occurred. Please try again later.';
     exit;
