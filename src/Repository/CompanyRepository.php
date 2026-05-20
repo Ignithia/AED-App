@@ -14,7 +14,7 @@ final class CompanyRepository extends AbstractRepository
     public function findAllPublic(): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, company_name, code, logo, bio, `spokes person` AS spokes_person, admin, private
+            'SELECT id, company_name, code, logo, bio, `spokes person` AS spokes_person, admin, private, email
              FROM company
              WHERE private = 0
              ORDER BY company_name ASC'
@@ -32,7 +32,7 @@ final class CompanyRepository extends AbstractRepository
     public function findAll(): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, company_name, code, logo, bio, `spokes person` AS spokes_person, admin, private
+            'SELECT id, company_name, code, logo, bio, `spokes person` AS spokes_person, admin, private, email
              FROM company
              ORDER BY company_name ASC'
         );
@@ -46,7 +46,7 @@ final class CompanyRepository extends AbstractRepository
     public function findById(int $id): ?Company
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, company_name, code, logo, bio, `spokes person` AS spokes_person, admin, private
+            'SELECT id, company_name, code, logo, bio, `spokes person` AS spokes_person, admin, private, email
              FROM company
              WHERE id = :id
              LIMIT 1',

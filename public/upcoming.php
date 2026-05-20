@@ -15,9 +15,7 @@ session_start();
 $db = Database::getInstance()->getConnection();
 $eventRepo = new EventRepository($db);
 
-// Public events (no company ID)
-$statement = $db->query('SELECT * FROM event WHERE fk_company IS NULL ORDER BY start_time ASC');
-$events = array_map(fn($row) => \App\Entity\Event::fromRow($row), $statement->fetchAll());
+$events = $eventRepo->findAll();
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -31,31 +29,46 @@ $events = array_map(fn($row) => \App\Entity\Event::fromRow($row), $statement->fe
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <div class="tabs-container">
         <div class="tabs">
             <a href="events.php" class="tab">Geplande</a>
-            <a href="upcoming-appointments.php" class="tab">Aankomende</a>
+            <?php if (isset($_SESSION['company_id']) || (isset($_SESSION['admin']) && $_SESSION['admin'])): ?>
+                <a href="upcoming-appointments.php" class="tab">Aankomende</a>
+            <?php endif; ?>
             <a href="upcoming.php" class="tab active">Evenementen</a>
         </div>
     </div>
+    
     <h2>Beschikbare evenementen</h2>
+    <div class="line"></div>
+
     <div class="events-list">
         <?php if (empty($events)): ?>
-            <div class="empty-state">
-                <p>Er zijn momenteel geen openbare evenementen beschikbaar.</p>
+            <div class="event-card">
+                <h3 style="width: 100%; text-align: center; color: #111;">Er zijn momenteel geen openbare evenementen beschikbaar.</h3>
             </div>
         <?php else: ?>
             <?php foreach ($events as $event): ?>
-                <div class="event-card">
-                    <h3><?= htmlspecialchars($event->eventName) ?></h3>
-                    <p><?= $event->startTime->format('d/m/y H:i') ?></p>
-                </div>
+                <a href="event-detail.php?id=<?= $event->id ?>" style="text-decoration: none; color: inherit;">
+                    <div class="event-card">
+                        <div class="event-img-container">
+                            <img src="images/logo/Home.svg" alt="Logo" class="event-logo">
+                        </div>
+                        <div class="event-divider"></div>
+                        <div class="event-info">
+                            <h3 class="event-title"><?= htmlspecialchars($event->eventName) ?></h3>
+                            <p class="event-datetime"><?= $event->startTime->format('d/m/y | H:i') ?></p>
+                        </div>
+                    </div>
+                </a>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
     <div class="events-cta-wrap">
-        <a href="make-event.php" class="btn primary">Plan evenement</a>
+        <?php if (isset($_SESSION['company_id']) || (isset($_SESSION['account_id']) && isset($_SESSION['admin']) && $_SESSION['admin'])): ?>
+            <a href="make-event.php" class="plan-event-link">Plan evenement</a>
+        <?php endif; ?>
     </div>
     <bottom-navigation></bottom-navigation>
 </body>

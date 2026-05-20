@@ -28,7 +28,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <main class="admin-page">
         <section class="admin-hero">
             <p class="admin-eyebrow">AED Admin</p>
@@ -41,13 +41,17 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                 <!-- Admin panel inputs -->
                 <label class="admin-field">
                     <span>Eyebrow</span>
-                    <input name="eyebrow" type="text" value="AED Studios">
+                    <input name="eyebrow" type="text" value="AED Studios" class="form-control">
                 </label>
                 <label class="admin-field">
                     <span>Titel</span>
-                    <input name="title" type="text" value="Visuele communicatie voor bedrijven">
+                    <input name="title" type="text" value="Visuele communicatie voor bedrijven" class="form-control">
                 </label>
-                <button class="btn primary" type="submit">Opslaan</button>
+                <label class="admin-field">
+                    <span>Beschrijving</span>
+                    <textarea name="description" class="form-control" style="min-height: 100px;">Plaats een banner of boodschap op de homepagina om bedrijven extra in de picture te zetten of een theater voorstelling te promoten.</textarea>
+                </label>
+                <button class="btn primary" type="submit" style="background: var(--primary-app); color: white; border: none; padding: 14px; border-radius: 30px; font-weight: 700; margin-top: 10px;">Opslaan</button>
             </form>
         </section>
 

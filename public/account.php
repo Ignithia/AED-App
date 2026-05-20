@@ -75,7 +75,7 @@ if (isset($_GET['logout'])) {
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <main class="account-page">
         <section class="account-hero">
             <p class="account-eyebrow">AED Studios</p>

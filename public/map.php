@@ -16,7 +16,7 @@ session_start();
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <div class="search-container">
         <input type="text" placeholder="Van" class="input-field">
         <img src="images/nav-ico/swap.svg" alt="Arrow" class="arrow-icon">

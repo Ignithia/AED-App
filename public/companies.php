@@ -12,7 +12,7 @@ use App\Repository\CompanyRepository;
 
 $db = Database::getInstance()->getConnection();
 $companyRepo = new CompanyRepository($db);
-$companies = $companyRepo->findAll();
+$companies = $companyRepo->findAllPublic();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +26,7 @@ $companies = $companyRepo->findAll();
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <h1>Bedrijven Lijst</h1>
     <div class="line"></div>
     <div class="company-list">
@@ -35,10 +35,16 @@ $companies = $companyRepo->findAll();
                 <p>Geen bedrijven gevonden op dit moment.</p>
             </div>
         <?php else: ?>
-            <?php foreach ($companies as $company): ?>
-                <a href="company-detail.php?id=<?= $company->id ?>">
+            <?php foreach ($companies as $company): 
+                $logoUrl = $company->logo ?: 'default-logo.png';
+                // Check if logo is a full URL (starts with http or https)
+                if (!preg_match('~^https?://~i', $logoUrl)) {
+                    $logoUrl = 'images/logo/' . $logoUrl;
+                }
+            ?>
+                <a href="company-detail.php?company_id=<?= $company->id ?>">
                     <div class="company-item">
-                        <img src="images/logo/<?= htmlspecialchars($company->logoUrl ?? 'default-logo.png') ?>" class="company-list-img">
+                        <img src="<?= htmlspecialchars($logoUrl) ?>" class="company-list-img">
                         <div class="divider-company-list"></div>
                         <h2 class="company-name"><?= htmlspecialchars($company->companyName) ?></h2>
                     </div>

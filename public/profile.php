@@ -35,7 +35,7 @@ $company = $account && $account->companyId ? $companyRepo->findById($account->co
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <div class="profile-header">
         <?php if ($company): ?>
             <img src="images/logo/<?= htmlspecialchars($company->logoUrl ?? 'default-logo.png') ?>" class="profile-logo">

@@ -30,11 +30,13 @@ $events = $eventRepo->findByCompanyId((int)$companyId);
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <div class="tabs-container">
         <div class="tabs">
             <a href="events.php" class="tab active">Geplande</a>
-            <a href="upcoming-appointments.php" class="tab">Aankomende</a>
+            <?php if (isset($_SESSION['company_id']) || (isset($_SESSION['admin']) && $_SESSION['admin'])): ?>
+                <a href="upcoming-appointments.php" class="tab">Aankomende</a>
+            <?php endif; ?>
             <a href="upcoming.php" class="tab">Evenementen</a>
         </div>
     </div>
@@ -43,7 +45,7 @@ $events = $eventRepo->findByCompanyId((int)$companyId);
     <div class="events-list">
         <?php if (empty($events)): ?>
             <div class="event-card">
-                <h3>Geen afspraken gevonden</h3>
+                <h3 style="width: 100%; text-align: center; color: #111;">Geen afspraken gevonden</h3>
             </div>
         <?php else: ?>
             <?php foreach ($events as $event): ?>

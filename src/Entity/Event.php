@@ -15,7 +15,10 @@ final class Event
         public readonly string $eventInfo,
         string $startTime,
         string $endTime,
-        public readonly int $companyId,
+        public readonly ?int $companyId,
+        public readonly ?string $companyName = null,
+        public readonly ?string $spokesPerson = null,
+        public readonly ?string $companyPhone = null,
     ) {
         $this->startTime = new \DateTimeImmutable($startTime);
         $this->endTime = new \DateTimeImmutable($endTime);
@@ -32,7 +35,10 @@ final class Event
             eventInfo: (string) $row['event_info'],
             startTime: (string) $row['start_time'],
             endTime: (string) $row['end_time'],
-            companyId: (int) $row['fk_company'],
+            companyId: $row['fk_company'] ? (int) $row['fk_company'] : null,
+            companyName: $row['company_name'] ?? null,
+            spokesPerson: $row['spokes_person'] ?? null,
+            companyPhone: $row['company_phone'] ?? null,
         );
     }
 }

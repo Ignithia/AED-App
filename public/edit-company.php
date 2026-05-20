@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $company) {
     <link rel="stylesheet" href="css/main.css">
     <script src="components/bottomnavigation.js"></script>
 </head>
-<body>
+<body class="dark-theme">
 
     <div class="edit-company-page">
         <h2 class="edit-company-title">Bewerk gegevens</h2>

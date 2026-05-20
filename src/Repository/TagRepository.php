@@ -27,4 +27,24 @@ final class TagRepository extends AbstractRepository
             $statement->fetchAll(),
         );
     }
+
+    /**
+     * @return list<Tag>
+     */
+    public function findByEventId(int $eventId): array
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT t.id, t.name
+             FROM event_tag et
+             INNER JOIN tag t ON t.id = et.fk_tag
+             WHERE et.fk_event = :event_id
+             ORDER BY t.name ASC',
+            ['event_id' => $eventId]
+        );
+
+        return array_map(
+            static fn (array $row): Tag => Tag::fromRow($row),
+            $statement->fetchAll(),
+        );
+    }
 }

@@ -17,6 +17,13 @@ final class Account
         public readonly bool $newsletterSubscribed,
         public readonly string $language,
         public readonly bool $notificationsEnabled,
+        public readonly bool $pushNotifications,
+        public readonly bool $emailNotifications,
+        public readonly bool $eventPopups,
+        public readonly bool $autoplayVideos,
+        public readonly bool $blockPopups,
+        public readonly bool $audioMuted,
+        public readonly string $profileVisibility,
     ) {}
 
     /**
@@ -33,8 +40,15 @@ final class Account
             role: (string) ($row['role'] ?? 'guest'),
             privacySearchable: (bool) ($row['privacy_searchable'] ?? true),
             newsletterSubscribed: (bool) ($row['newsletter_subscribed'] ?? false),
-            language: (string) ($row['language'] ?? 'en'),
+            language: (string) ($row['language'] ?? 'nl'),
             notificationsEnabled: (bool) ($row['notifications_enabled'] ?? true),
+            pushNotifications: (bool) ($row['push_notifications'] ?? true),
+            emailNotifications: (bool) ($row['email_notifications'] ?? true),
+            eventPopups: (bool) ($row['event_popups'] ?? true),
+            autoplayVideos: (bool) ($row['autoplay_videos'] ?? true),
+            blockPopups: (bool) ($row['block_popups'] ?? false),
+            audioMuted: (bool) ($row['audio_muted'] ?? false),
+            profileVisibility: (string) ($row['profile_visibility'] ?? 'public'),
         );
     }
 }

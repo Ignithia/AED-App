@@ -35,7 +35,7 @@ if (!$event) {
     <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
+<body class="dark-theme">
     <h2 class="detail-title"><?= htmlspecialchars($event->eventName) ?></h2>
     <div class="line"></div>
     <div class="detail-content">
