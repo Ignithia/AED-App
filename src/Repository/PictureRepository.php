@@ -14,7 +14,7 @@ final class PictureRepository extends AbstractRepository
     public function findByEventId(int $eventId): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, pictures, fk_event
+            'SELECT id, url, fk_event
              FROM picture
              WHERE fk_event = :event_id',
             ['event_id' => $eventId]
@@ -29,7 +29,7 @@ final class PictureRepository extends AbstractRepository
     public function create(string $url, int $eventId): void
     {
         $this->prepareAndExecute(
-            'INSERT INTO picture (pictures, fk_event)
+            'INSERT INTO picture (url, fk_event)
              VALUES (:url, :event_id)',
             [
                 'url' => $url,

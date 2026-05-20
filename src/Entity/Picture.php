@@ -19,7 +19,7 @@ final class Picture
     {
         return new self(
             id: (int) $row['id'],
-            url: (string) $row['pictures'],
+            url: (string) $row['url'],
             eventId: (int) $row['fk_event'],
         );
     }

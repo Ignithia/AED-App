@@ -24,6 +24,7 @@ $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['guest_login'])) {
         $_SESSION['role'] = 'guest';
+        $email = $_POST['email'] ?? '';
         header('Location: index.php');
         exit;
     }
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['account_id'] = $account->id;
         $_SESSION['company_id'] = $company ? $company->id : null;
+        $_SESSION['email'] = $account->email ?? null;
         $_SESSION['role'] = $account->role;
 
         header('Location: index.php');
@@ -89,6 +91,10 @@ if (isset($_GET['logout'])) {
                 <form method="POST">
                     <div class="account-actions-row">
                         <input type="hidden" name="guest_login" value="1">
+                        <label class="account-field">
+                            <span>e-mail</span>
+                            <input name="email" type="text" required placeholder="BV: aed.studios@example.com">
+                        </label>
                         <button class="btn primary" type="submit">Inloggen als gast</button>
                     </div>
                 </form>
