@@ -2,11 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Database;
-use App\Repository\CompanyRepository;
-use App\Repository\AccountRepository;
-use App\Repository\TagRepository;
-
 require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Entity/Company.php';
 require_once __DIR__ . '/../src/Entity/Account.php';
@@ -15,6 +10,13 @@ require_once __DIR__ . '/../src/Repository/AbstractRepository.php';
 require_once __DIR__ . '/../src/Repository/CompanyRepository.php';
 require_once __DIR__ . '/../src/Repository/AccountRepository.php';
 require_once __DIR__ . '/../src/Repository/TagRepository.php';
+
+use App\Database;
+use App\Repository\CompanyRepository;
+use App\Repository\AccountRepository;
+use App\Repository\TagRepository;
+
+session_start();
 
 /**
  * Escape all dynamic HTML output to prevent XSS.
@@ -35,16 +37,7 @@ if ($companyId === null || $companyId === false) {
 }
 
 try {
-    // Keep credentials out of source code; environment variables are preferred.
-    $database = new Database(
-        host: $_ENV['DB_HOST'] ?? '127.0.0.1',
-        dbName: $_ENV['DB_NAME'] ?? 'aed_db',
-        username: $_ENV['DB_USER'] ?? 'root',
-        password: $_ENV['DB_PASS'] ?? '',
-        port: (int) ($_ENV['DB_PORT'] ?? 3306),
-    );
-
-    $pdo = $database->getConnection();
+    $pdo = Database::getInstance()->getConnection();
     $companyRepository = new CompanyRepository($pdo);
     $accountRepository = new AccountRepository($pdo);
     $tagRepository = new TagRepository($pdo);
@@ -75,54 +68,64 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($company->companyName) ?></title>
+    <link rel="stylesheet" href="css/vars.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="components/bottomnavigation.js"></script>
 </head>
 
-<body>
-    <main>
-        <h1><?= e($company->companyName) ?></h1>
-        <p><strong>Code:</strong> <?= e($company->code) ?></p>
-        <p><strong>Spokes person:</strong> <?= e($company->spokesPerson) ?></p>
-        <p><strong>Admin:</strong> <?= $company->admin ? 'Yes' : 'No' ?></p>
-
-        <section>
-            <h2>Logo</h2>
-            <img src="<?= e($company->logo) ?>" alt="<?= e($company->companyName) ?> logo">
+<body class="dark-theme">
+    <main class="company-detail-page">
+        <section class="company-detail-logo-wrap">
+            <img src="<?= e($company->logo) ?>" alt="<?= e($company->companyName) ?> logo" class="company-detail-logo">
         </section>
 
-        <section>
-            <h2>Bio</h2>
-            <p><?= nl2br(e($company->bio)) ?></p>
+        <h1 class="company-detail-title"><?= e($company->companyName) ?></h1>
+        <div class="company-detail-line"></div>
+
+        <section class="company-detail-section">
+            <div class="company-detail-info-block">
+                <div class="company-detail-row">
+                    <span>Telefoon:</span>
+                    <span><?= e($company->code) ?></span>
+                </div>
+                <div class="company-detail-row">
+                    <span>Contact:</span>
+                    <span><?= e($company->spokesPerson) ?></span>
+                </div>
+                <div class="company-detail-row">
+                    <span>Email:</span>
+                    <span><?= e($company->email ?? '') ?></span>
+                </div>
+            </div>
         </section>
 
-        <section>
-            <h2>Tags</h2>
-            <?php if ($tags === []) : ?>
-                <p>No tags found.</p>
-            <?php else : ?>
-                <ul>
-                    <?php foreach ($tags as $tag) : ?>
-                        <li><?= e($tag->name) ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+        <section class="company-detail-section">
+            <h3 class="company-detail-section-title">Intro:</h3>
+            <p class="company-detail-text"><?= $company->bio ? nl2br(e($company->bio)) : 'Geen introductie beschikbaar.' ?></p>
         </section>
 
-        <section>
-            <h2>Accounts</h2>
-            <?php if ($accounts === []) : ?>
-                <p>No accounts found.</p>
-            <?php else : ?>
-                <ul>
-                    <?php foreach ($accounts as $account) : ?>
-                        <li>
-                            <?= e($account->name) ?>
-                            (<?= e($account->email) ?>)
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+        <section class="company-detail-section">
+            <h3 class="company-detail-section-title">Tags:</h3>
+            <div class="company-detail-tags-grid">
+                <?php foreach ($tags as $index => $tag) : ?>
+                    <div class="company-detail-tag-card <?= ($index === count($tags) - 1 && count($tags) % 2 !== 0) ? 'company-detail-tag-card-wide' : '' ?>">
+                        <div class="company-detail-tag-hole"></div>
+                        <span class="company-detail-tag-label"><?= e($tag->name) ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </section>
+
+        <div class="company-detail-actions">
+            <div class="company-detail-primary-wrap">
+                <a href="coffee-break.php?company_id=<?= $company->id ?>" class="company-detail-primary">Coffee break</a>
+                <button class="company-detail-info-dot" onclick="alert('Indien u hier op klikt stuurt u een seintje dat u graag een koffie of drankje komt drinken bij dit bedrijf.')">i</button>
+            </div>
+            <a href="mailto:<?= e($company->email ?? '') ?>" class="company-detail-secondary">Contact</a>
+        </div>
     </main>
+
+    <bottom-navigation></bottom-navigation>
 </body>
 
 </html>

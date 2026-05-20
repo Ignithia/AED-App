@@ -15,6 +15,7 @@ final class Company
         public readonly string $spokesPerson,
         public readonly bool $admin,
         public readonly bool $private,
+        public readonly ?string $email = null,
     ) {}
 
     /**
@@ -29,8 +30,9 @@ final class Company
             logo: (string) $row['logo'],
             bio: (string) $row['bio'],
             spokesPerson: (string) $row['spokes_person'],
-            private: (bool) $row['private'],
-            admin: (bool) $row['admin'],
+            private: (bool) ($row['private'] ?? false),
+            admin: (bool) ($row['admin'] ?? false),
+            email: (string) ($row['email'] ?? ''),
         );
     }
 }

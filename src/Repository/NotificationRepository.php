@@ -11,6 +11,24 @@ final class NotificationRepository extends AbstractRepository
     /**
      * @return list<Notification>
      */
+    public function findAllActive(): array
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT id, title, body_text, image, expiry_date, fk_employee
+             FROM notification
+             WHERE expiry_date > NOW() OR expiry_date IS NULL
+             ORDER BY id DESC'
+        );
+
+        return array_map(
+            static fn(array $row): Notification => Notification::fromRow($row),
+            $statement->fetchAll(),
+        );
+    }
+
+    /**
+     * @return list<Notification>
+     */
     public function findActiveByEmployeeId(int $employeeId): array
     {
         $statement = $this->prepareAndExecute(

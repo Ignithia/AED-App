@@ -12,6 +12,7 @@ final class CoffeeBreak
         public readonly string $reason,
         public readonly ?string $dateTime,
         public readonly ?int $companyAccountId,
+        public readonly string $status = 'pending',
     ) {}
 
     /**
@@ -25,6 +26,7 @@ final class CoffeeBreak
             reason: (string) $row['reason'],
             dateTime: $row['date_time'] ? (string) $row['date_time'] : null,
             companyAccountId: $row['fk_company_account'] ? (int) $row['fk_company_account'] : null,
+            status: $row['status'] ?? 'pending',
         );
     }
 }

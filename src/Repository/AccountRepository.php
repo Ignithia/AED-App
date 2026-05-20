@@ -14,7 +14,7 @@ final class AccountRepository extends AbstractRepository
     public function findByCompanyId(int $companyId): array
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
+            'SELECT id, name, email, code, fk_company, role,
                     privacy_searchable, newsletter_subscribed, language, notifications_enabled
              FROM account
              WHERE fk_company = :company_id
@@ -31,7 +31,7 @@ final class AccountRepository extends AbstractRepository
     public function findByEmail(string $email): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
+            'SELECT id, name, email, code, fk_company, role,
                     privacy_searchable, newsletter_subscribed, language, notifications_enabled
              FROM account
              WHERE email = :email
@@ -50,7 +50,7 @@ final class AccountRepository extends AbstractRepository
     public function findByEmailAndCode(string $email, string $code): ?Account
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
+            'SELECT id, name, email, code, fk_company, role,
                     privacy_searchable, newsletter_subscribed, language, notifications_enabled
              FROM account
              WHERE email = :email AND code = :code
@@ -64,19 +64,55 @@ final class AccountRepository extends AbstractRepository
     }
 
     /**
-     * Create multiple empty accounts for a company
+     * Find an account by its unique code (password)
      */
-    public function bulkCreateForCompany(int $companyId, int $count): void
+    public function findByCode(string $code): ?Account
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT id, name, email, code, fk_company, role,
+                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+             FROM account
+             WHERE code = :code
+             LIMIT 1',
+            ['code' => $code]
+        );
+
+        $row = $statement->fetch();
+
+        return $row ? Account::fromRow($row) : null;
+    }
+
+    public function findById(int $id): ?Account
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT id, name, email, code, fk_company, role,
+                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
+             FROM account
+             WHERE id = :id
+             LIMIT 1',
+            ['id' => $id]
+        );
+
+        $row = $statement->fetch();
+
+        return $row ? Account::fromRow($row) : null;
+    }
+
+    /**
+     * Create multiple empty accounts for a company with customizable code and prefix
+     */
+    public function bulkCreateForCompany(int $companyId, int $count, ?string $codeOverride = null, string $namePrefix = 'Medewerker'): void
     {
         $sql = 'INSERT INTO account (name, email, code, fk_company) VALUES (:name, :email, :code, :company_id)';
         $stmt = $this->pdo->prepare($sql);
 
-        for ($i = 0; $i < $count; $i++) {
-            $uniqueCode = bin2hex(random_bytes(4)); // Generate a random 8-char code
+        for ($i = 1; $i <= $count; $i++) {
+            $uniqueId = bin2hex(random_bytes(3));
+            $loginCode = $codeOverride ?: bin2hex(random_bytes(4));
             $stmt->execute([
-                'name' => "Employee $uniqueCode",
-                'email' => "pending_$uniqueCode@example.com",
-                'code' => $uniqueCode,
+                'name' => "$namePrefix $i",
+                'email' => "pending_{$uniqueId}@aedstudios.com", // Generic internal email
+                'code' => $loginCode,
                 'company_id' => $companyId
             ]);
         }
@@ -96,22 +132,6 @@ final class AccountRepository extends AbstractRepository
                 'code' => $code
             ]
         );
-    }
-
-    public function findById(int $id): ?Account
-    {
-        $statement = $this->prepareAndExecute(
-            'SELECT id, name, email, code, fk_company, 
-                    privacy_searchable, newsletter_subscribed, language, notifications_enabled
-             FROM account
-             WHERE id = :id
-             LIMIT 1',
-            ['id' => $id]
-        );
-
-        $row = $statement->fetch();
-
-        return $row ? Account::fromRow($row) : null;
     }
 
     public function update(int $id, string $name, string $email, string $code, ?int $companyId): void

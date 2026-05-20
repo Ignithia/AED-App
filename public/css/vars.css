@@ -1,0 +1,29 @@
+/* @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik.ttf") format("truetype");
+} */
+
+:root {
+  /* Color Variables */
+  --aed-red: #ff0d0d;
+  --off-black: #111111;
+  --off-white: #f5f5f5;
+  --primary-app: #ff1f1f;
+
+  --decline-red: #ff0000;
+  --accept-green: #00ff00;
+
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Font Variables */
+  --title-font: "Rubik", 32px;
+  --h3-font: "Rubik", 20px;
+  --h2-font: "Rubik", 24px;
+  --p-font: "Rubik", 16px;
+
+  /* Border Radius Variables */
+  --border-radius: 20px;
+  --pfp-img-radius: 100%;
+  --decline-accept-radius: 100%;
+}

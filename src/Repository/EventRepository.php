@@ -14,11 +14,48 @@ final class EventRepository extends AbstractRepository
     public function findByCompanyId(int $companyId): array
     {
         $statement = $this->prepareAndExecute(
+            'SELECT e.id, e.event_name, e.event_info, e.start_time, e.end_time, e.fk_company
+             FROM event e
+             JOIN event_participant ep ON e.id = ep.fk_event
+             JOIN account a ON ep.fk_account = a.id
+             WHERE a.fk_company = :company_id
+             ORDER BY e.start_time ASC',
+            ['company_id' => $companyId]
+        );
+
+        return array_map(
+            static fn(array $row): Event => Event::fromRow($row),
+            $statement->fetchAll(),
+        );
+    }
+
+    /**
+     * @return list<Event>
+     */
+    public function findAll(): array
+    {
+        $statement = $this->prepareAndExecute(
             'SELECT id, event_name, event_info, start_time, end_time, fk_company
              FROM event
-             WHERE fk_company = :company_id
-             ORDER BY start_time ASC',
-            ['company_id' => $companyId]
+             ORDER BY start_time ASC'
+        );
+
+        return array_map(
+            static fn(array $row): Event => Event::fromRow($row),
+            $statement->fetchAll(),
+        );
+    }
+
+    /**
+     * @return list<Event>
+     */
+    public function findAllPublic(): array
+    {
+        $statement = $this->prepareAndExecute(
+            'SELECT id, event_name, event_info, start_time, end_time, fk_company
+             FROM event
+             WHERE fk_company IS NULL
+             ORDER BY start_time ASC'
         );
 
         return array_map(
@@ -57,9 +94,11 @@ final class EventRepository extends AbstractRepository
     public function findById(int $id): ?Event
     {
         $statement = $this->prepareAndExecute(
-            'SELECT id, event_name, event_info, start_time, end_time, fk_company
-             FROM event
-             WHERE id = :id',
+            'SELECT e.id, e.event_name, e.event_info, e.start_time, e.end_time, e.fk_company, 
+                    c.company_name, c.`spokes person` as spokes_person, c.Telefoon as company_phone
+             FROM event e
+             LEFT JOIN company c ON e.fk_company = c.id
+             WHERE e.id = :id',
             ['id' => $id]
         );
 
@@ -105,5 +144,16 @@ final class EventRepository extends AbstractRepository
     public function delete(int $id): void
     {
         $this->prepareAndExecute('DELETE FROM event WHERE id = :id', ['id' => $id]);
+    }
+
+    public function addParticipant(int $eventId, int $accountId): void
+    {
+        $this->prepareAndExecute(
+            'INSERT IGNORE INTO event_participant (fk_event, fk_account) VALUES (:event_id, :account_id)',
+            [
+                'event_id' => $eventId,
+                'account_id' => $accountId,
+            ]
+        );
     }
 }

@@ -25,4 +25,16 @@ final class PictureRepository extends AbstractRepository
             $statement->fetchAll(),
         );
     }
+
+    public function create(string $url, int $eventId): void
+    {
+        $this->prepareAndExecute(
+            'INSERT INTO picture (pictures, fk_event)
+             VALUES (:url, :event_id)',
+            [
+                'url' => $url,
+                'event_id' => $eventId,
+            ]
+        );
+    }
 }
