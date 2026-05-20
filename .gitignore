@@ -1,4 +1,6 @@
 .env
+.env.example
 /vendor/
 *.log
 .DS_Store
+database.sql
