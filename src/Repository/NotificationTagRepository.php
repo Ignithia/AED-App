@@ -19,7 +19,7 @@ final class NotificationTagRepository extends AbstractRepository
              INNER JOIN tag t ON t.id = nt.fk_tag
              WHERE nt.fk_notification = :notification_id
              ORDER BY t.name ASC',
-            ['notification_id' => $notificationId]
+            [':notification_id' => $notificationId]
         );
 
         return array_map(
@@ -36,8 +36,8 @@ final class NotificationTagRepository extends AbstractRepository
         $this->prepareAndExecute(
             'INSERT INTO notification_tag (fk_notification, fk_tag) VALUES (:notification_id, :tag_id)',
             [
-                'notification_id' => $notificationId,
-                'tag_id' => $tagId
+                ':notification_id' => $notificationId,
+                ':tag_id' => $tagId
             ]
         );
     }

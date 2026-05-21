@@ -18,7 +18,7 @@ final class AccountRepository extends AbstractRepository
              FROM account
              WHERE fk_company = :company_id
              ORDER BY name ASC',
-            ['company_id' => $companyId]
+            [':company_id' => $companyId]
         );
 
         return array_map(
@@ -34,7 +34,7 @@ final class AccountRepository extends AbstractRepository
              FROM account
              WHERE email = :email
              LIMIT 1',
-            ['email' => $email]
+            [':email' => $email]
         );
 
         $row = $statement->fetch();
@@ -52,7 +52,7 @@ final class AccountRepository extends AbstractRepository
              FROM account
              WHERE email = :email AND code = :code
              LIMIT 1',
-            ['email' => $email, 'code' => $code]
+            [':email' => $email, ':code' => $code]
         );
 
         $row = $statement->fetch();
@@ -70,7 +70,7 @@ final class AccountRepository extends AbstractRepository
              FROM account
              WHERE code = :code
              LIMIT 1',
-            ['code' => $code]
+            [':code' => $code]
         );
 
         $row = $statement->fetch();
@@ -85,7 +85,7 @@ final class AccountRepository extends AbstractRepository
              FROM account
              WHERE id = :id
              LIMIT 1',
-            ['id' => $id]
+            [':id' => $id]
         );
 
         $row = $statement->fetch();
@@ -105,10 +105,10 @@ final class AccountRepository extends AbstractRepository
             $uniqueId = bin2hex(random_bytes(3));
             $loginCode = $codeOverride ?: bin2hex(random_bytes(4));
             $stmt->execute([
-                'name' => "$namePrefix $i",
-                'email' => "pending_{$uniqueId}@aedstudios.com", // Generic internal email
-                'code' => $loginCode,
-                'company_id' => $companyId
+                ':name' => "$namePrefix $i",
+                ':email' => "pending_{$uniqueId}@aedstudios.com", // Generic internal email
+                ':code' => $loginCode,
+                ':company_id' => $companyId
             ]);
         }
     }
@@ -122,9 +122,9 @@ final class AccountRepository extends AbstractRepository
             'INSERT INTO account (name, email, code, fk_company) 
              VALUES (:name, :email, :code, NULL)',
             [
-                'name' => $name,
-                'email' => $email,
-                'code' => $code
+                ':name' => $name,
+                ':email' => $email,
+                ':code' => $code
             ]
         );
     }
@@ -146,9 +146,9 @@ final class AccountRepository extends AbstractRepository
             'INSERT INTO account (name, email, code, fk_company, role) 
              VALUES (:name, :email, :code, NULL, "guest")',
             [
-                'name' => $name,
-                'email' => $email,
-                'code' => $code
+                ':name' => $name,
+                ':email' => $email,
+                ':code' => $code
             ]
         );
 
@@ -162,11 +162,11 @@ final class AccountRepository extends AbstractRepository
              SET name = :name, email = :email, code = :code, fk_company = :company_id
              WHERE id = :id',
             [
-                'id' => $id,
-                'name' => $name,
-                'email' => $email,
-                'code' => $code,
-                'company_id' => $companyId,
+                ':id' => $id,
+                ':name' => $name,
+                ':email' => $email,
+                ':code' => $code,
+                ':company_id' => $companyId,
             ]
         );
     }
@@ -186,17 +186,17 @@ final class AccountRepository extends AbstractRepository
                  notifications_enabled = :notif 
              WHERE id = :id',
             [
-                'privacy' => $privacy,
-                'newsletter' => $newsletter,
-                'lang' => $language,
-                'notif' => $notifications,
-                'id' => $accountId
+                ':privacy' => $privacy,
+                ':newsletter' => $newsletter,
+                ':lang' => $language,
+                ':notif' => $notifications,
+                ':id' => $accountId
             ]
         );
     }
 
     public function delete(int $id): void
     {
-        $this->prepareAndExecute('DELETE FROM account WHERE id = :id', ['id' => $id]);
+        $this->prepareAndExecute('DELETE FROM account WHERE id = :id', [':id' => $id]);
     }
 }

@@ -20,8 +20,17 @@ final class Event
         public readonly ?string $spokesPerson = null,
         public readonly ?string $companyPhone = null,
     ) {
-        $this->startTime = new \DateTimeImmutable($startTime);
-        $this->endTime = new \DateTimeImmutable($endTime);
+        try {
+            $this->startTime = new \DateTimeImmutable($startTime);
+        } catch (\Exception) {
+            $this->startTime = new \DateTimeImmutable('1970-01-01 00:00:00');
+        }
+        
+        try {
+            $this->endTime = new \DateTimeImmutable($endTime);
+        } catch (\Exception) {
+            $this->endTime = new \DateTimeImmutable('1970-01-01 00:00:00');
+        }
     }
 
     /**

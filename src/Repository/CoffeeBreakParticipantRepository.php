@@ -17,7 +17,7 @@ final class CoffeeBreakParticipantRepository extends AbstractRepository
             'SELECT id, fk_company_account, fk_coffee_break
              FROM coffee_break_participant
              WHERE fk_coffee_break = :coffee_break_id',
-            ['coffee_break_id' => $coffeeBreakId]
+            [':coffee_break_id' => $coffeeBreakId]
         );
 
         return array_map(

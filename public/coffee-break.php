@@ -14,6 +14,14 @@ session_start();
 
 $db = Database::getInstance()->getConnection();
 $coffeeRepo = new CoffeeBreakRepository($db);
+$targetCompanyIdInput = $_POST['target_company_id'] ?? $_GET['company_id'] ?? null;
+$targetCompanyId = filter_var($targetCompanyIdInput, FILTER_VALIDATE_INT, [
+    'options' => ['min_range' => 1],
+]);
+
+if ($targetCompanyId === false) {
+    $targetCompanyId = null;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = $_POST['location'] ?? '';
@@ -22,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accountId = $_SESSION['account_id'] ?? 1; // Default for demo
 
     if ($location && $reason && $time) {
-        $coffeeRepo->create($location, $reason, $time, (int)$accountId);
+        $coffeeRepo->create($location, $reason, $time, (int)$accountId, $targetCompanyId !== null ? (int)$targetCompanyId : null);
         header('Location: upcoming-appointments.php');
         exit;
     }
@@ -48,6 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="coffee-break-page-line"></div>
         <form method="POST">
+            <?php if ($targetCompanyId !== null): ?>
+                <input type="hidden" name="target_company_id" value="<?= (int)$targetCompanyId ?>">
+            <?php endif; ?>
             <section class="coffee-break-form-group">
                 <label class="coffee-break-label">Locatie</label>
                 <select name="location" class="coffee-break-select">

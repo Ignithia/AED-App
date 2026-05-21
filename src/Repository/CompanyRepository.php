@@ -50,7 +50,7 @@ final class CompanyRepository extends AbstractRepository
              FROM company
              WHERE id = :id
              LIMIT 1',
-            ['id' => $id]
+            [':id' => $id]
         );
 
         $row = $statement->fetch();
@@ -97,14 +97,14 @@ final class CompanyRepository extends AbstractRepository
             'INSERT INTO company (company_name, code, logo, bio, `spokes person`, admin, private, email)
              VALUES (:name, :code, :logo, :bio, :spokes_person, :admin, :private, :email)',
             [
-                'name' => $name,
-                'code' => $code,
-                'logo' => $logo,
-                'bio' => $bio,
-                'spokes_person' => $spokesPerson,
-                'admin' => $admin ? 1 : 0,
-                'private' => $private ? 1 : 0,
-                'email' => $email,
+                ':name' => $name,
+                ':code' => $code,
+                ':logo' => $logo,
+                ':bio' => $bio,
+                ':spokes_person' => $spokesPerson,
+                ':admin' => $admin ? 1 : 0,
+                ':private' => $private ? 1 : 0,
+                ':email' => $email,
             ]
         );
 
@@ -118,20 +118,20 @@ final class CompanyRepository extends AbstractRepository
              SET company_name = :name, code = :code, logo = :logo, bio = :bio, `spokes person` = :spokes_person, admin = :admin, private = :private
              WHERE id = :id',
             [
-                'id' => $id,
-                'name' => $name,
-                'code' => $code,
-                'logo' => $logo,
-                'bio' => $bio,
-                'spokes_person' => $spokesPerson,
-                'admin' => $admin,
-                'private' => $private,
+                ':id' => $id,
+                ':name' => $name,
+                ':code' => $code,
+                ':logo' => $logo,
+                ':bio' => $bio,
+                ':spokes_person' => $spokesPerson,
+                ':admin' => $admin,
+                ':private' => $private,
             ]
         );
     }
 
     public function delete(int $id): void
     {
-        $this->prepareAndExecute('DELETE FROM company WHERE id = :id', ['id' => $id]);
+        $this->prepareAndExecute('DELETE FROM company WHERE id = :id', [':id' => $id]);
     }
 }

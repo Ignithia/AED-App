@@ -3,15 +3,17 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../src/Database.php';
+require_once __DIR__ . '/../src/Entity/Event.php';
+require_once __DIR__ . '/../src/Entity/Picture.php';
 require_once __DIR__ . '/../src/Repository/AbstractRepository.php';
 require_once __DIR__ . '/../src/Repository/EventRepository.php';
 require_once __DIR__ . '/../src/Repository/PictureRepository.php';
-require_once __DIR__ . '/../src/Entity/Event.php';
-require_once __DIR__ . '/../src/Entity/Picture.php';
 
 use App\Database;
 use App\Repository\EventRepository;
 use App\Repository\PictureRepository;
+use App\Entity\Event;
+use App\Entity\Picture;
 
 session_start();
 

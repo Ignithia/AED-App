@@ -19,7 +19,7 @@ final class TagRepository extends AbstractRepository
              INNER JOIN tag t ON t.id = ct.fk_tag
              WHERE ct.fk_company = :company_id
              ORDER BY t.name ASC',
-            ['company_id' => $companyId]
+            [':company_id' => $companyId]
         );
 
         return array_map(
@@ -39,7 +39,7 @@ final class TagRepository extends AbstractRepository
              INNER JOIN tag t ON t.id = et.fk_tag
              WHERE et.fk_event = :event_id
              ORDER BY t.name ASC',
-            ['event_id' => $eventId]
+            [':event_id' => $eventId]
         );
 
         return array_map(

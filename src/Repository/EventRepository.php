@@ -20,7 +20,7 @@ final class EventRepository extends AbstractRepository
              JOIN account a ON ep.fk_account = a.id
              WHERE a.fk_company = :company_id
              ORDER BY e.start_time ASC',
-            ['company_id' => $companyId]
+            [':company_id' => $companyId]
         );
 
         return array_map(
@@ -99,7 +99,7 @@ final class EventRepository extends AbstractRepository
              FROM event e
              LEFT JOIN company c ON e.fk_company = c.id
              WHERE e.id = :id',
-            ['id' => $id]
+            [':id' => $id]
         );
 
         $row = $statement->fetch();
@@ -113,11 +113,11 @@ final class EventRepository extends AbstractRepository
             'INSERT INTO event (event_name, event_info, start_time, end_time, fk_company)
              VALUES (:name, :info, :start, :end, :company_id)',
             [
-                'name' => $name,
-                'info' => $info,
-                'start' => $startTime,
-                'end' => $endTime,
-                'company_id' => $companyId,
+                ':name' => $name,
+                ':info' => $info,
+                ':start' => $startTime,
+                ':end' => $endTime,
+                ':company_id' => $companyId,
             ]
         );
 
@@ -131,19 +131,19 @@ final class EventRepository extends AbstractRepository
              SET event_name = :name, event_info = :info, start_time = :start, end_time = :end, fk_company = :company_id
              WHERE id = :id',
             [
-                'id' => $id,
-                'name' => $name,
-                'info' => $info,
-                'start' => $startTime,
-                'end' => $endTime,
-                'company_id' => $companyId,
+                ':id' => $id,
+                ':name' => $name,
+                ':info' => $info,
+                ':start' => $startTime,
+                ':end' => $endTime,
+                ':company_id' => $companyId,
             ]
         );
     }
 
     public function delete(int $id): void
     {
-        $this->prepareAndExecute('DELETE FROM event WHERE id = :id', ['id' => $id]);
+        $this->prepareAndExecute('DELETE FROM event WHERE id = :id', [':id' => $id]);
     }
 
     public function addParticipant(int $eventId, int $accountId): void
@@ -151,8 +151,8 @@ final class EventRepository extends AbstractRepository
         $this->prepareAndExecute(
             'INSERT IGNORE INTO event_participant (fk_event, fk_account) VALUES (:event_id, :account_id)',
             [
-                'event_id' => $eventId,
-                'account_id' => $accountId,
+                ':event_id' => $eventId,
+                ':account_id' => $accountId,
             ]
         );
     }

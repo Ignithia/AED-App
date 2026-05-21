@@ -3,24 +3,32 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../src/Database.php';
+require_once __DIR__ . '/../src/Entity/Event.php';
+require_once __DIR__ . '/../src/Entity/CoffeeBreak.php';
+require_once __DIR__ . '/../src/Entity/Picture.php';
 require_once __DIR__ . '/../src/Repository/AbstractRepository.php';
 require_once __DIR__ . '/../src/Repository/EventRepository.php';
+require_once __DIR__ . '/../src/Repository/CoffeeBreakRepository.php';
 require_once __DIR__ . '/../src/Repository/PictureRepository.php';
-require_once __DIR__ . '/../src/Entity/Event.php';
-require_once __DIR__ . '/../src/Entity/Picture.php';
 
 use App\Database;
+use App\Repository\CoffeeBreakRepository;
 use App\Repository\EventRepository;
 use App\Repository\PictureRepository;
+use App\Entity\Event;
+use App\Entity\CoffeeBreak;
+use App\Entity\Picture;
 
 session_start();
 
 $db = Database::getInstance()->getConnection();
 $eventRepo = new EventRepository($db);
+$coffeeRepo = new CoffeeBreakRepository($db);
 $pictureRepo = new PictureRepository($db);
 
-$companyId = $_SESSION['company_id'] ?? 1; // Default for demo if not logged in
-$events = $eventRepo->findByCompanyId((int)$companyId);
+$companyId = isset($_SESSION['company_id']) ? (int) $_SESSION['company_id'] : null;
+$events = $companyId !== null ? $eventRepo->findByCompanyId($companyId) : [];
+$coffeeBreaks = $companyId !== null ? $coffeeRepo->findAcceptedByCompanyId($companyId) : [];
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -47,7 +55,7 @@ $events = $eventRepo->findByCompanyId((int)$companyId);
     <h2>Geplande afspraken</h2>
     <div class="line"></div>
     <div class="events-list">
-        <?php if (empty($events)): ?>
+        <?php if (empty($events) && empty($coffeeBreaks)): ?>
             <div class="event-card">
                 <h3 style="width: 100%; text-align: center; color: #111;">Geen afspraken gevonden</h3>
             </div>
@@ -70,6 +78,25 @@ $events = $eventRepo->findByCompanyId((int)$companyId);
                         </div>
                     </div>
                 </a>
+            <?php endforeach; ?>
+
+            <?php foreach ($coffeeBreaks as $coffeeBreak): ?>
+                <div class="event-card">
+                    <div class="event-img-container">
+                        <img src="images/logo/coffee.svg" alt="Coffee break" class="event-logo">
+                    </div>
+                    <div class="event-divider" style="background: #6f4e37;"></div>
+                    <div class="event-info">
+                        <h3 class="event-title">Coffee break: <?= htmlspecialchars($coffeeBreak->reason) ?></h3>
+                        <p class="event-datetime"><?= htmlspecialchars($coffeeBreak->location) ?></p>
+                        <p class="event-datetime">
+                            <?php 
+                            $ts = $coffeeBreak->dateTime ? strtotime($coffeeBreak->dateTime) : false;
+                            echo ($ts !== false && $ts > 0) ? date('d/m/y | H:i', $ts) : 'TBD';
+                            ?>
+                        </p>
+                    </div>
+                </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>

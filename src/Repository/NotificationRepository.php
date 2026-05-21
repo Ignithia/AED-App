@@ -37,7 +37,7 @@ final class NotificationRepository extends AbstractRepository
              WHERE fk_employee = :employee_id
              AND expiry_date > NOW()
              ORDER BY expiry_date ASC',
-            ['employee_id' => $employeeId]
+            [':employee_id' => $employeeId]
         );
 
         return array_map(
@@ -80,7 +80,7 @@ final class NotificationRepository extends AbstractRepository
             'SELECT id, title, body_text, image, expiry_date, fk_employee
              FROM notification
              WHERE id = :id',
-            ['id' => $id]
+            [':id' => $id]
         );
 
         $row = $statement->fetch();
@@ -94,11 +94,11 @@ final class NotificationRepository extends AbstractRepository
             'INSERT INTO notification (title, body_text, image, expiry_date, fk_employee)
              VALUES (:title, :body, :image, :expiry, :account_id)',
             [
-                'title' => $title,
-                'body' => $body,
-                'image' => $image,
-                'expiry' => $expiryDate,
-                'account_id' => $accountId,
+                ':title' => $title,
+                ':body' => $body,
+                ':image' => $image,
+                ':expiry' => $expiryDate,
+                ':account_id' => $accountId,
             ]
         );
 
@@ -112,18 +112,18 @@ final class NotificationRepository extends AbstractRepository
              SET title = :title, body_text = :body, image = :image, expiry_date = :expiry, fk_employee = :account_id
              WHERE id = :id',
             [
-                'id' => $id,
-                'title' => $title,
-                'body' => $body,
-                'image' => $image,
-                'expiry' => $expiryDate,
-                'account_id' => $accountId,
+                ':id' => $id,
+                ':title' => $title,
+                ':body' => $body,
+                ':image' => $image,
+                ':expiry' => $expiryDate,
+                ':account_id' => $accountId,
             ]
         );
     }
 
     public function delete(int $id): void
     {
-        $this->prepareAndExecute('DELETE FROM notification WHERE id = :id', ['id' => $id]);
+        $this->prepareAndExecute('DELETE FROM notification WHERE id = :id', [':id' => $id]);
     }
 }

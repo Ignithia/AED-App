@@ -17,7 +17,7 @@ final class PictureRepository extends AbstractRepository
             'SELECT *
              FROM picture
              WHERE fk_event = :event_id',
-            ['event_id' => $eventId]
+            [':event_id' => $eventId]
         );
 
         return array_map(
@@ -33,7 +33,7 @@ final class PictureRepository extends AbstractRepository
              FROM picture
              WHERE fk_event = :event_id
              LIMIT 1',
-            ['event_id' => $eventId]
+            [':event_id' => $eventId]
         );
 
         $row = $statement->fetch();
@@ -47,8 +47,8 @@ final class PictureRepository extends AbstractRepository
             'INSERT INTO picture (url, fk_event)
              VALUES (:url, :event_id)',
             [
-                'url' => $url,
-                'event_id' => $eventId,
+                ':url' => $url,
+                ':event_id' => $eventId,
             ]
         );
     }

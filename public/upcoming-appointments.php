@@ -3,15 +3,17 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../src/Database.php';
+require_once __DIR__ . '/../src/Entity/Event.php';
+require_once __DIR__ . '/../src/Entity/CoffeeBreak.php';
 require_once __DIR__ . '/../src/Repository/AbstractRepository.php';
 require_once __DIR__ . '/../src/Repository/EventRepository.php';
 require_once __DIR__ . '/../src/Repository/CoffeeBreakRepository.php';
-require_once __DIR__ . '/../src/Entity/Event.php';
-require_once __DIR__ . '/../src/Entity/CoffeeBreak.php';
 
 use App\Database;
 use App\Repository\EventRepository;
 use App\Repository\CoffeeBreakRepository;
+use App\Entity\Event;
+use App\Entity\CoffeeBreak;
 
 session_start();
 
@@ -24,15 +26,23 @@ if (!isset($_SESSION['company_id']) && (!isset($_SESSION['admin']) || !$_SESSION
     exit;
 }
 
-$companyId = $_SESSION['company_id'] ?? 1; // Default 1 for demo
+$companyId = isset($_SESSION['company_id']) ? (int) $_SESSION['company_id'] : null;
+
+if ($companyId === null) {
+    header('Location: upcoming.php');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['coffee_id'], $_POST['status'])) {
-    $coffeeRepo->updateStatus((int)$_POST['coffee_id'], $_POST['status']);
+    $status = $_POST['status'];
+    if (in_array($status, ['accepted', 'denied'], true)) {
+        $coffeeRepo->updateStatusForCompany((int)$_POST['coffee_id'], $status, $companyId);
+    }
     header('Location: upcoming-appointments.php');
     exit;
 }
 
-$appointments = $coffeeRepo->findPendingByCompanyId((int)$companyId);
+$appointments = $coffeeRepo->findPendingByCompanyId($companyId);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +87,12 @@ $appointments = $coffeeRepo->findPendingByCompanyId((int)$companyId);
                         <div class="event-info" style="flex: 1;">
                             <h3 class="event-title" style="margin: 0; font-size: 1rem; color: #111;">Koffiepauze: <?= htmlspecialchars($app->reason) ?></h3>
                             <p class="event-datetime" style="margin: 4px 0 0; color: #444;"><?= htmlspecialchars($app->location) ?></p>
-                            <p class="event-datetime" style="margin: 2px 0 0; color: #666; font-size: 0.85rem;"><?= $app->dateTime ? date('d/m/y | H:i', strtotime($app->dateTime)) : 'TBD' ?></p>
+                            <p class="event-datetime" style="margin: 2px 0 0; color: #666; font-size: 0.85rem;">
+                                <?php 
+                                $ts = $app->dateTime ? strtotime($app->dateTime) : false;
+                                echo ($ts !== false && $ts > 0) ? date('d/m/y | H:i', $ts) : 'TBD';
+                                ?>
+                            </p>
                         </div>
                     </div>
                     
